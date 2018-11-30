@@ -52,6 +52,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5025870c7f7e149b32c8b9501899bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pawnPrefab: {fileID: 1957088640302594, guid: c2d89f4bf3881714bbe2a6303d202ed2, type: 2}
+  kingPrefab: {fileID: 1123814087835446, guid: 9be3d68c235a7964ab3d957f92fea899, type: 2}
+  queenPrefab: {fileID: 1298225485630752, guid: 58f347218bf5a3545b367162f22aae11,
+    type: 2}
+  bishopPrefab: {fileID: 0}
+  knightPrefab: {fileID: 0}
+  rookPrefab: {fileID: 0}
 --- !u!114 &114970758871256628
 MonoBehaviour:
   m_ObjectHideFlags: 1
