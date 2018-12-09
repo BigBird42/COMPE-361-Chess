@@ -123,8 +123,8 @@ GameObject:
   - component: {fileID: 42409705}
   - component: {fileID: 42409704}
   m_Layer: 0
-  m_Name: PawnLight (3)
-  m_TagString: Untagged
+  m_Name: PL3
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -275,8 +275,8 @@ GameObject:
   - component: {fileID: 75206866}
   - component: {fileID: 75206865}
   m_Layer: 0
-  m_Name: PawnDark (2)
-  m_TagString: Untagged
+  m_Name: PD2
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,8 +350,8 @@ GameObject:
   - component: {fileID: 97407052}
   - component: {fileID: 97407051}
   m_Layer: 0
-  m_Name: PawnDark (7)
-  m_TagString: Untagged
+  m_Name: PD7
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -425,8 +425,8 @@ GameObject:
   - component: {fileID: 172763223}
   - component: {fileID: 172763222}
   m_Layer: 0
-  m_Name: PawnDark (3)
-  m_TagString: Untagged
+  m_Name: PD3
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -500,8 +500,8 @@ GameObject:
   - component: {fileID: 223121510}
   - component: {fileID: 223121509}
   m_Layer: 0
-  m_Name: RookDark (1)
-  m_TagString: Untagged
+  m_Name: RD1
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -575,8 +575,8 @@ GameObject:
   - component: {fileID: 315170783}
   - component: {fileID: 315170782}
   m_Layer: 0
-  m_Name: BishopDark
-  m_TagString: Untagged
+  m_Name: BD0
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -650,8 +650,8 @@ GameObject:
   - component: {fileID: 358495991}
   - component: {fileID: 358495990}
   m_Layer: 0
-  m_Name: KingLight
-  m_TagString: Untagged
+  m_Name: KL
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -725,8 +725,8 @@ GameObject:
   - component: {fileID: 387272919}
   - component: {fileID: 387272918}
   m_Layer: 0
-  m_Name: PawnLight (6)
-  m_TagString: Untagged
+  m_Name: PL6
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -800,8 +800,8 @@ GameObject:
   - component: {fileID: 428280851}
   - component: {fileID: 428280850}
   m_Layer: 0
-  m_Name: KnightLight (1)
-  m_TagString: Untagged
+  m_Name: NL1
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -875,8 +875,8 @@ GameObject:
   - component: {fileID: 498560195}
   - component: {fileID: 498560194}
   m_Layer: 0
-  m_Name: KnightDark
-  m_TagString: Untagged
+  m_Name: ND0
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -950,8 +950,8 @@ GameObject:
   - component: {fileID: 655094719}
   - component: {fileID: 655094718}
   m_Layer: 0
-  m_Name: PawnLight (4)
-  m_TagString: Untagged
+  m_Name: PL4
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1025,8 +1025,8 @@ GameObject:
   - component: {fileID: 697732311}
   - component: {fileID: 697732310}
   m_Layer: 0
-  m_Name: BishopLight
-  m_TagString: Untagged
+  m_Name: BL0
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1100,8 +1100,8 @@ GameObject:
   - component: {fileID: 768604836}
   - component: {fileID: 768604835}
   m_Layer: 0
-  m_Name: RookDark
-  m_TagString: Untagged
+  m_Name: RD0
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1175,8 +1175,8 @@ GameObject:
   - component: {fileID: 866832714}
   - component: {fileID: 866832713}
   m_Layer: 0
-  m_Name: BishopLight (1)
-  m_TagString: Untagged
+  m_Name: BL1
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1250,8 +1250,8 @@ GameObject:
   - component: {fileID: 947961921}
   - component: {fileID: 947961920}
   m_Layer: 0
-  m_Name: KingDark
-  m_TagString: Untagged
+  m_Name: KD
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1325,8 +1325,8 @@ GameObject:
   - component: {fileID: 1057227117}
   - component: {fileID: 1057227116}
   m_Layer: 0
-  m_Name: PawnLight
-  m_TagString: Untagged
+  m_Name: PL0
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1400,8 +1400,8 @@ GameObject:
   - component: {fileID: 1059677596}
   - component: {fileID: 1059677595}
   m_Layer: 0
-  m_Name: PawnLight (2)
-  m_TagString: Untagged
+  m_Name: PL2
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1475,8 +1475,8 @@ GameObject:
   - component: {fileID: 1125765192}
   - component: {fileID: 1125765191}
   m_Layer: 0
-  m_Name: RookLight (1)
-  m_TagString: Untagged
+  m_Name: RL1
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1550,8 +1550,8 @@ GameObject:
   - component: {fileID: 1181629452}
   - component: {fileID: 1181629451}
   m_Layer: 0
-  m_Name: RookLight
-  m_TagString: Untagged
+  m_Name: RL0
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1625,8 +1625,8 @@ GameObject:
   - component: {fileID: 1187195162}
   - component: {fileID: 1187195161}
   m_Layer: 0
-  m_Name: QueenLight
-  m_TagString: Untagged
+  m_Name: QL
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1700,8 +1700,8 @@ GameObject:
   - component: {fileID: 1188552068}
   - component: {fileID: 1188552067}
   m_Layer: 0
-  m_Name: PawnLight (5)
-  m_TagString: Untagged
+  m_Name: PL5
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1775,8 +1775,8 @@ GameObject:
   - component: {fileID: 1206551602}
   - component: {fileID: 1206551601}
   m_Layer: 0
-  m_Name: PawnLight (1)
-  m_TagString: Untagged
+  m_Name: PL1
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1850,8 +1850,8 @@ GameObject:
   - component: {fileID: 1395672813}
   - component: {fileID: 1395672812}
   m_Layer: 0
-  m_Name: KnightDark (1)
-  m_TagString: Untagged
+  m_Name: ND1
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1925,8 +1925,8 @@ GameObject:
   - component: {fileID: 1430058333}
   - component: {fileID: 1430058332}
   m_Layer: 0
-  m_Name: KnightLight
-  m_TagString: Untagged
+  m_Name: NL0
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2000,8 +2000,8 @@ GameObject:
   - component: {fileID: 1598664923}
   - component: {fileID: 1598664922}
   m_Layer: 0
-  m_Name: PawnDark (1)
-  m_TagString: Untagged
+  m_Name: PD1
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2075,8 +2075,8 @@ GameObject:
   - component: {fileID: 1617487065}
   - component: {fileID: 1617487064}
   m_Layer: 0
-  m_Name: BishopDark (1)
-  m_TagString: Untagged
+  m_Name: BD1
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2150,8 +2150,8 @@ GameObject:
   - component: {fileID: 1652798937}
   - component: {fileID: 1652798936}
   m_Layer: 0
-  m_Name: QueenDark
-  m_TagString: Untagged
+  m_Name: QD
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2225,8 +2225,8 @@ GameObject:
   - component: {fileID: 1659318737}
   - component: {fileID: 1659318736}
   m_Layer: 0
-  m_Name: PawnDark (5)
-  m_TagString: Untagged
+  m_Name: PD5
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2300,8 +2300,8 @@ GameObject:
   - component: {fileID: 1762250025}
   - component: {fileID: 1762250024}
   m_Layer: 0
-  m_Name: PawnDark
-  m_TagString: Untagged
+  m_Name: PD0
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2460,6 +2460,8 @@ MonoBehaviour:
   bishopPrefab: {fileID: 0}
   knightPrefab: {fileID: 0}
   rookPrefab: {fileID: 0}
+  playerWhite: []
+  playerBlack: []
 --- !u!61 &1882363280
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2495,8 +2497,8 @@ GameObject:
   - component: {fileID: 1900015838}
   - component: {fileID: 1900015837}
   m_Layer: 0
-  m_Name: PawnDark (6)
-  m_TagString: Untagged
+  m_Name: PD6
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2570,8 +2572,8 @@ GameObject:
   - component: {fileID: 1978275965}
   - component: {fileID: 1978275964}
   m_Layer: 0
-  m_Name: PawnLight (7)
-  m_TagString: Untagged
+  m_Name: PL7
+  m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2645,8 +2647,8 @@ GameObject:
   - component: {fileID: 2113366947}
   - component: {fileID: 2113366946}
   m_Layer: 0
-  m_Name: PawnDark (4)
-  m_TagString: Untagged
+  m_Name: PD4
+  m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
