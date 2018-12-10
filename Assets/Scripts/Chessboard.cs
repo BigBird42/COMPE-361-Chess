@@ -15,7 +15,10 @@ public class Chessboard : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        // Initialize starting player
         currentPlayer = "White";
+
+        // Fill pieces dictionary with all pieces on the board
         GameObject[] piecesWhite = GameObject.FindGameObjectsWithTag("White");
         GameObject[] piecesBlack = GameObject.FindGameObjectsWithTag("Black");
 
@@ -29,9 +32,11 @@ public class Chessboard : MonoBehaviour {
             pieces.Add(WorldPointToRF(piece.transform.position), piece);
         }
 
+        // Initialize the indicator GameObjects
         selectedSquare = GameObject.FindGameObjectWithTag("SelectedSquare");
         targetSquare = GameObject.FindGameObjectWithTag("TargetSquare");
 
+        // Initialize the starting location of the white and black graveyard
         whiteGrave.x = -4.5f;
         whiteGrave.y = -3.5f;
         blackGrave.x = 4.5f;
@@ -58,7 +63,10 @@ public class Chessboard : MonoBehaviour {
         return;
     }
     
-
+    /// <summary>
+    /// Interprets a mouse click on the playing area of the chess board
+    /// </summary>
+    /// <param name="mousePos"></param>
     public void newPlayerMove(Vector3 mousePos)
     {
         string location = WorldPointToRF(mousePos);
@@ -87,6 +95,7 @@ public class Chessboard : MonoBehaviour {
                 {
                     moveToGrave(location);
                     piece.transform.position = RFToWorldPoint(location);
+                    // Update new location of the piece
                     pieces.Remove(nextMove);
                     pieces.Add(location, piece);
                 }
@@ -104,11 +113,14 @@ public class Chessboard : MonoBehaviour {
                     throw new System.Exception("currentPlayer is invalid somehow");
                 }
             }
+
+            // Reset current move
             nextMove = "";
             hightlightPiece("", false);
             highlightValidMoves(new string[] { }, false);
         }
     }
+
     /// <summary>
     /// Moves a piece to the graveyard, does nothing if there is no piece at location
     /// </summary>
@@ -149,9 +161,10 @@ public class Chessboard : MonoBehaviour {
     }
 
     /// <summary>
-    /// Make the square under the selected piece golden
+    /// Make the square under the selected piece golden, removes square instead if enable is false
     /// </summary>
     /// <param name="location"></param>
+    /// <param name="enable"></param>
     private void hightlightPiece(string location, bool enable)
     {
         if (enable)
@@ -165,9 +178,10 @@ public class Chessboard : MonoBehaviour {
     }
 
     /// <summary>
-    /// Put a red square on locations of valid moves
+    /// Put a red square on locations of valid moves, removes squares instead if enable is false
     /// </summary>
     /// <param name="locations"></param>
+    /// <param name="enable"></param>
     private void highlightValidMoves(string[] locations, bool enable)
     {
         if (enable)
