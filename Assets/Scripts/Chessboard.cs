@@ -19,10 +19,11 @@ public class Chessboard : MonoBehaviour {
         chessPieces = new Dictionary<string, GameObject>();
         recordOfMoves = new LinkedList<string>();
         ResetBoard();
+        //LoadGame("a2a3a7a6b1c3g8h6");
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -106,19 +107,9 @@ public class Chessboard : MonoBehaviour {
     {
         ResetBoard();
         string move = "";
-        for (int i = 0; i <= (saveState.Length-4);)
+        for (int i = 0; i <= (saveState.Length-4); i += 4)
         {
-            for (int j = 0; j < 4; j++, i++)
-            {
-                try
-                {
-                    move += saveState[i];
-                }
-                catch(System.IndexOutOfRangeException)
-                {
-                    return; // Reached end of save state, skipping partial move
-                }
-            }
+            move = saveState.Substring(i, 4);
             // Skip records of move to grave, newPlayerMove will populate that for us
             if(move[1] == 'G') { continue; }
             try
@@ -132,7 +123,7 @@ public class Chessboard : MonoBehaviour {
             }
         }
     }
-
+    
     private void OnMouseDown()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
