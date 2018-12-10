@@ -10,6 +10,8 @@ public class Chessboard : MonoBehaviour {
     static public Dictionary<string, GameObject> pieces;
     private Vector3 whiteGrave;
     private Vector3 blackGrave;
+    private GameObject selectedSquare;
+    private GameObject targetSquare;
 
     // Use this for initialization
     void Start () {
@@ -26,6 +28,10 @@ public class Chessboard : MonoBehaviour {
         {
             pieces.Add(WorldPointToRF(piece.transform.position), piece);
         }
+
+        selectedSquare = GameObject.FindGameObjectWithTag("SelectedSquare");
+        targetSquare = GameObject.FindGameObjectWithTag("TargetSquare");
+
         whiteGrave.x = -4.5f;
         whiteGrave.y = -3.5f;
         blackGrave.x = 4.5f;
@@ -36,7 +42,7 @@ public class Chessboard : MonoBehaviour {
 	void Update () {
 		
 	}
-    
+
     private void OnMouseDown()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -66,6 +72,8 @@ public class Chessboard : MonoBehaviour {
                 if (piece.tag == currentPlayer)
                 {
                     nextMove += location;
+                    hightlightPiece(location, true);
+                    highlightValidMoves(validMoveLocations(location), true);
                 }
             }
         }
@@ -97,6 +105,8 @@ public class Chessboard : MonoBehaviour {
                 }
             }
             nextMove = "";
+            hightlightPiece("", false);
+            highlightValidMoves(new string[] { }, false);
         }
     }
     /// <summary>
@@ -135,6 +145,48 @@ public class Chessboard : MonoBehaviour {
                 }
             }
             pieces.Remove(location);
+        }
+    }
+
+    /// <summary>
+    /// Make the square under the selected piece golden
+    /// </summary>
+    /// <param name="location"></param>
+    private void hightlightPiece(string location, bool enable)
+    {
+        if (enable)
+        {
+            selectedSquare.transform.position = RFToWorldPoint(location);
+        }
+        else
+        {
+            selectedSquare.transform.position = new Vector3(15, 0 , 0);
+        }
+    }
+
+    /// <summary>
+    /// Put a red square on locations of valid moves
+    /// </summary>
+    /// <param name="locations"></param>
+    private void highlightValidMoves(string[] locations, bool enable)
+    {
+        if (enable)
+        {
+            foreach(string location in locations)
+            {
+                Instantiate(targetSquare, RFToWorldPoint(location), Quaternion.identity);
+            }
+        }
+        else
+        {
+            GameObject[] highlightedLocations = GameObject.FindGameObjectsWithTag("TargetSquare");
+            foreach (GameObject location in highlightedLocations)
+            {
+                if(location != targetSquare)
+                {
+                    Destroy(location);
+                }
+            }
         }
     }
 
@@ -206,6 +258,16 @@ public class Chessboard : MonoBehaviour {
     private bool isValidMove(string move)
     {
 
-        return true;
+        return true; // Just for testing, implement later
+    }
+
+    /// <summary>
+    /// Returns an array of strings containing valid locations for the given piece to move to
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
+    private string[] validMoveLocations(string location)
+    {
+        return new string[] { "a1", "a2", "b1", "b2" }; // Just for testing, implement later
     }
 }
