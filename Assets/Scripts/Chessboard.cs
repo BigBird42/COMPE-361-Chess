@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Chessboard : MonoBehaviour {
 
-    public GameObject pawnPrefab, kingPrefab, queenPrefab, bishopPrefab, knightPrefab, rookPrefab;
+    //public GameObject pawnPrefab, kingPrefab, queenPrefab, bishopPrefab, knightPrefab, rookPrefab;
+    public GameObject blackPawnPrefab, blackKingPrefab, blackQueenPrefab, blackBishopPrefab, blackKnightPrefab, blackRookPrefab;
+    public GameObject whitePawnPrefab, whiteKingPrefab, whiteQueenPrefab, whiteBishopPrefab, whiteKnightPrefab, whiteRookPrefab;
     string nextMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> pieces;

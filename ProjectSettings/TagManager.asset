@@ -8,6 +8,18 @@ TagManager:
   - White
   - SelectedSquare
   - TargetSquare
+  - BlackKing
+  - BlackRook
+  - BlackBishop
+  - BlackKnight
+  - BlackPawn
+  - BlackQueen
+  - WhiteKing
+  - WhiteRook
+  - WhiteBishop
+  - WhiteKnight
+  - WhitePawn
+  - WhiteQueen
   layers:
   - Default
   - TransparentFX
