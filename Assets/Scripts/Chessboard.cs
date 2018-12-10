@@ -7,30 +7,18 @@ public class Chessboard : MonoBehaviour {
     //public GameObject pawnPrefab, kingPrefab, queenPrefab, bishopPrefab, knightPrefab, rookPrefab;
     public GameObject blackPawnPrefab, blackKingPrefab, blackQueenPrefab, blackBishopPrefab, blackKnightPrefab, blackRookPrefab;
     public GameObject whitePawnPrefab, whiteKingPrefab, whiteQueenPrefab, whiteBishopPrefab, whiteKnightPrefab, whiteRookPrefab;
+    public GameObject selectedSquare;
+    public GameObject targetSquare;
     string nextMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> pieces;
     private Vector3 whiteGrave;
     private Vector3 blackGrave;
-    private GameObject selectedSquare;
-    private GameObject targetSquare;
 
     // Use this for initialization
     void Start () {
-        // Initialize starting player
-        currentPlayer = "White";
         pieces = new Dictionary<string, GameObject>();
         ResetBoard();
-
-        // Initialize the indicator GameObjects
-        selectedSquare = GameObject.FindGameObjectWithTag("SelectedSquare");
-        targetSquare = GameObject.FindGameObjectWithTag("TargetSquare");
-
-        // Initialize the starting location of the white and black graveyard
-        whiteGrave.x = -4.5f;
-        whiteGrave.y = -3.5f;
-        blackGrave.x = 4.5f;
-        blackGrave.y = 3.5f;
     }
 	
 	// Update is called once per frame
@@ -40,8 +28,11 @@ public class Chessboard : MonoBehaviour {
 
     private void ResetBoard()
     {
+        // Reset starting player
+        currentPlayer = "White";
+
         // Remove all pieces from board
-        foreach(KeyValuePair<string, GameObject> pair in pieces)
+        foreach (KeyValuePair<string, GameObject> pair in pieces)
         {
             Destroy(pair.Value);
         }
@@ -83,6 +74,11 @@ public class Chessboard : MonoBehaviour {
         pieces.Add("g2", Instantiate(whitePawnPrefab, RFToWorldPoint("g2"), Quaternion.identity));
         pieces.Add("h2", Instantiate(whitePawnPrefab, RFToWorldPoint("h2"), Quaternion.identity));
 
+        // Initialize the starting location of the white and black graveyard
+        whiteGrave.x = -4.5f;
+        whiteGrave.y = -3.5f;
+        blackGrave.x = 4.5f;
+        blackGrave.y = 3.5f;
     }
 
     private void OnMouseDown()
@@ -206,11 +202,11 @@ public class Chessboard : MonoBehaviour {
     {
         if (enable)
         {
-            selectedSquare.transform.position = RFToWorldPoint(location);
+            Instantiate(selectedSquare, RFToWorldPoint(location), Quaternion.identity);
         }
         else
         {
-            selectedSquare.transform.position = new Vector3(15, 0 , 0);
+            Destroy(GameObject.FindGameObjectWithTag("SelectedSquare"));
         }
     }
 
@@ -231,12 +227,9 @@ public class Chessboard : MonoBehaviour {
         else
         {
             GameObject[] highlightedLocations = GameObject.FindGameObjectsWithTag("TargetSquare");
-            foreach (GameObject location in highlightedLocations)
+            foreach (GameObject targetIndicator in highlightedLocations)
             {
-                if(location != targetSquare)
-                {
-                    Destroy(location);
-                }
+                Destroy(targetIndicator);
             }
         }
     }

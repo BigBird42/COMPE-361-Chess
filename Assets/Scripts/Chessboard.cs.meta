@@ -16,6 +16,8 @@ MonoImporter:
   - whiteBishopPrefab: {instanceID: 0}
   - whiteKnightPrefab: {instanceID: 0}
   - whiteRookPrefab: {instanceID: 0}
+  - selectedSquare: {instanceID: 0}
+  - targetSquare: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

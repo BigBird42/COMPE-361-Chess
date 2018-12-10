@@ -190,90 +190,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &405374447
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4439446964763458, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ae630f45fed18db4b862a408fc6604ee, type: 2}
-  m_IsPrefabAsset: 0
---- !u!1001 &1832509545
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713689348058632, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4deadc606f59a4b458b0c7a19acbb522, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1882363276
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +301,10 @@ MonoBehaviour:
   whiteKnightPrefab: {fileID: 1868540392048256, guid: b71a91171a384f14a9d2876852adb32e,
     type: 2}
   whiteRookPrefab: {fileID: 1933078204375650, guid: 42544eeff8a662544a1d5bcc6d6bfcbf,
+    type: 2}
+  selectedSquare: {fileID: 1720368681268700, guid: 4deadc606f59a4b458b0c7a19acbb522,
+    type: 2}
+  targetSquare: {fileID: 1163495750480336, guid: ae630f45fed18db4b862a408fc6604ee,
     type: 2}
 --- !u!61 &1882363280
 BoxCollider2D:
