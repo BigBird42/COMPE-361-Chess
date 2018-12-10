@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Chessboard : MonoBehaviour {
-
-    //public GameObject pawnPrefab, kingPrefab, queenPrefab, bishopPrefab, knightPrefab, rookPrefab;
     public GameObject blackPawnPrefab, blackKingPrefab, blackQueenPrefab, blackBishopPrefab, blackKnightPrefab, blackRookPrefab;
     public GameObject whitePawnPrefab, whiteKingPrefab, whiteQueenPrefab, whiteBishopPrefab, whiteKnightPrefab, whiteRookPrefab;
     public GameObject selectedSquare;
     public GameObject targetSquare;
-    string nextMove = "";
+    string pieceToMove = "";
     static public string currentPlayer;
-    static public Dictionary<string, GameObject> pieces;
+    static public Dictionary<string, GameObject> chessPieces;
     private Vector3 whiteGrave;
     private Vector3 blackGrave;
 
     // Use this for initialization
     void Start () {
-        pieces = new Dictionary<string, GameObject>();
+        chessPieces = new Dictionary<string, GameObject>();
         ResetBoard();
     }
 	
@@ -31,48 +29,48 @@ public class Chessboard : MonoBehaviour {
         // Reset starting player
         currentPlayer = "White";
 
-        // Remove all pieces from board
-        foreach (KeyValuePair<string, GameObject> pair in pieces)
+        // Remove all chess pieces from board
+        foreach (KeyValuePair<string, GameObject> pair in chessPieces)
         {
             Destroy(pair.Value);
         }
-        pieces.Clear();
+        chessPieces.Clear();
 
-        // Create black pieces in starting positions
-        pieces.Add("e8", Instantiate(blackKingPrefab, FRToWorldPoint("e8"), Quaternion.identity));
-        pieces.Add("d8", Instantiate(blackQueenPrefab, FRToWorldPoint("d8"), Quaternion.identity));
-        pieces.Add("c8", Instantiate(blackBishopPrefab, FRToWorldPoint("c8"), Quaternion.identity));
-        pieces.Add("f8", Instantiate(blackBishopPrefab, FRToWorldPoint("f8"), Quaternion.identity));
-        pieces.Add("b8", Instantiate(blackKnightPrefab, FRToWorldPoint("b8"), Quaternion.identity));
-        pieces.Add("g8", Instantiate(blackKnightPrefab, FRToWorldPoint("g8"), Quaternion.identity));
-        pieces.Add("a8", Instantiate(blackRookPrefab, FRToWorldPoint("a8"), Quaternion.identity));
-        pieces.Add("h8", Instantiate(blackRookPrefab, FRToWorldPoint("h8"), Quaternion.identity));
-        pieces.Add("a7", Instantiate(blackPawnPrefab, FRToWorldPoint("a7"), Quaternion.identity));
-        pieces.Add("b7", Instantiate(blackPawnPrefab, FRToWorldPoint("b7"), Quaternion.identity));
-        pieces.Add("c7", Instantiate(blackPawnPrefab, FRToWorldPoint("c7"), Quaternion.identity));
-        pieces.Add("d7", Instantiate(blackPawnPrefab, FRToWorldPoint("d7"), Quaternion.identity));
-        pieces.Add("e7", Instantiate(blackPawnPrefab, FRToWorldPoint("e7"), Quaternion.identity));
-        pieces.Add("f7", Instantiate(blackPawnPrefab, FRToWorldPoint("f7"), Quaternion.identity));
-        pieces.Add("g7", Instantiate(blackPawnPrefab, FRToWorldPoint("g7"), Quaternion.identity));
-        pieces.Add("h7", Instantiate(blackPawnPrefab, FRToWorldPoint("h7"), Quaternion.identity));
+        // Create black chess pieces in starting positions
+        chessPieces.Add("e8", Instantiate(blackKingPrefab, FRToWorldPoint("e8"), Quaternion.identity));
+        chessPieces.Add("d8", Instantiate(blackQueenPrefab, FRToWorldPoint("d8"), Quaternion.identity));
+        chessPieces.Add("c8", Instantiate(blackBishopPrefab, FRToWorldPoint("c8"), Quaternion.identity));
+        chessPieces.Add("f8", Instantiate(blackBishopPrefab, FRToWorldPoint("f8"), Quaternion.identity));
+        chessPieces.Add("b8", Instantiate(blackKnightPrefab, FRToWorldPoint("b8"), Quaternion.identity));
+        chessPieces.Add("g8", Instantiate(blackKnightPrefab, FRToWorldPoint("g8"), Quaternion.identity));
+        chessPieces.Add("a8", Instantiate(blackRookPrefab, FRToWorldPoint("a8"), Quaternion.identity));
+        chessPieces.Add("h8", Instantiate(blackRookPrefab, FRToWorldPoint("h8"), Quaternion.identity));
+        chessPieces.Add("a7", Instantiate(blackPawnPrefab, FRToWorldPoint("a7"), Quaternion.identity));
+        chessPieces.Add("b7", Instantiate(blackPawnPrefab, FRToWorldPoint("b7"), Quaternion.identity));
+        chessPieces.Add("c7", Instantiate(blackPawnPrefab, FRToWorldPoint("c7"), Quaternion.identity));
+        chessPieces.Add("d7", Instantiate(blackPawnPrefab, FRToWorldPoint("d7"), Quaternion.identity));
+        chessPieces.Add("e7", Instantiate(blackPawnPrefab, FRToWorldPoint("e7"), Quaternion.identity));
+        chessPieces.Add("f7", Instantiate(blackPawnPrefab, FRToWorldPoint("f7"), Quaternion.identity));
+        chessPieces.Add("g7", Instantiate(blackPawnPrefab, FRToWorldPoint("g7"), Quaternion.identity));
+        chessPieces.Add("h7", Instantiate(blackPawnPrefab, FRToWorldPoint("h7"), Quaternion.identity));
 
-        // Create white pieces in starting positions
-        pieces.Add("e1", Instantiate(whiteKingPrefab, FRToWorldPoint("e1"), Quaternion.identity));
-        pieces.Add("d1", Instantiate(whiteQueenPrefab, FRToWorldPoint("d1"), Quaternion.identity));
-        pieces.Add("c1", Instantiate(whiteBishopPrefab, FRToWorldPoint("c1"), Quaternion.identity));
-        pieces.Add("f1", Instantiate(whiteBishopPrefab, FRToWorldPoint("f1"), Quaternion.identity));
-        pieces.Add("b1", Instantiate(whiteKnightPrefab, FRToWorldPoint("b1"), Quaternion.identity));
-        pieces.Add("g1", Instantiate(whiteKnightPrefab, FRToWorldPoint("g1"), Quaternion.identity));
-        pieces.Add("a1", Instantiate(whiteRookPrefab, FRToWorldPoint("a1"), Quaternion.identity));
-        pieces.Add("h1", Instantiate(whiteRookPrefab, FRToWorldPoint("h1"), Quaternion.identity));
-        pieces.Add("a2", Instantiate(whitePawnPrefab, FRToWorldPoint("a2"), Quaternion.identity));
-        pieces.Add("b2", Instantiate(whitePawnPrefab, FRToWorldPoint("b2"), Quaternion.identity));
-        pieces.Add("c2", Instantiate(whitePawnPrefab, FRToWorldPoint("c2"), Quaternion.identity));
-        pieces.Add("d2", Instantiate(whitePawnPrefab, FRToWorldPoint("d2"), Quaternion.identity));
-        pieces.Add("e2", Instantiate(whitePawnPrefab, FRToWorldPoint("e2"), Quaternion.identity));
-        pieces.Add("f2", Instantiate(whitePawnPrefab, FRToWorldPoint("f2"), Quaternion.identity));
-        pieces.Add("g2", Instantiate(whitePawnPrefab, FRToWorldPoint("g2"), Quaternion.identity));
-        pieces.Add("h2", Instantiate(whitePawnPrefab, FRToWorldPoint("h2"), Quaternion.identity));
+        // Create white chess pieces in starting positions
+        chessPieces.Add("e1", Instantiate(whiteKingPrefab, FRToWorldPoint("e1"), Quaternion.identity));
+        chessPieces.Add("d1", Instantiate(whiteQueenPrefab, FRToWorldPoint("d1"), Quaternion.identity));
+        chessPieces.Add("c1", Instantiate(whiteBishopPrefab, FRToWorldPoint("c1"), Quaternion.identity));
+        chessPieces.Add("f1", Instantiate(whiteBishopPrefab, FRToWorldPoint("f1"), Quaternion.identity));
+        chessPieces.Add("b1", Instantiate(whiteKnightPrefab, FRToWorldPoint("b1"), Quaternion.identity));
+        chessPieces.Add("g1", Instantiate(whiteKnightPrefab, FRToWorldPoint("g1"), Quaternion.identity));
+        chessPieces.Add("a1", Instantiate(whiteRookPrefab, FRToWorldPoint("a1"), Quaternion.identity));
+        chessPieces.Add("h1", Instantiate(whiteRookPrefab, FRToWorldPoint("h1"), Quaternion.identity));
+        chessPieces.Add("a2", Instantiate(whitePawnPrefab, FRToWorldPoint("a2"), Quaternion.identity));
+        chessPieces.Add("b2", Instantiate(whitePawnPrefab, FRToWorldPoint("b2"), Quaternion.identity));
+        chessPieces.Add("c2", Instantiate(whitePawnPrefab, FRToWorldPoint("c2"), Quaternion.identity));
+        chessPieces.Add("d2", Instantiate(whitePawnPrefab, FRToWorldPoint("d2"), Quaternion.identity));
+        chessPieces.Add("e2", Instantiate(whitePawnPrefab, FRToWorldPoint("e2"), Quaternion.identity));
+        chessPieces.Add("f2", Instantiate(whitePawnPrefab, FRToWorldPoint("f2"), Quaternion.identity));
+        chessPieces.Add("g2", Instantiate(whitePawnPrefab, FRToWorldPoint("g2"), Quaternion.identity));
+        chessPieces.Add("h2", Instantiate(whitePawnPrefab, FRToWorldPoint("h2"), Quaternion.identity));
 
         // Initialize the starting location of the white and black graveyard
         whiteGrave.x = -4.5f;
@@ -105,32 +103,32 @@ public class Chessboard : MonoBehaviour {
         string location = WorldPointToFR(mousePos);
         GameObject piece;
 
-        // If this is the first selection on this turn
-        if (nextMove.Length == 0)
+        // If no piece has been selected to move yet
+        if (pieceToMove.Length == 0)
         {
-            if (pieces.TryGetValue(location, out piece))
+            if (chessPieces.TryGetValue(location, out piece))
             {
                 if (piece.tag.Contains(currentPlayer))
                 {
-                    nextMove += location;
+                    pieceToMove += location;
                     hightlightPiece(location, true);
                     highlightValidMoves(validMoveLocations(location), true);
                 }
             }
         }
-        else if (nextMove.Length == 2)
+        else if (pieceToMove.Length == 2)
         {
             // See if move is valid
-            if (isValidMove(nextMove + location))
+            if (isValidMove(pieceToMove + location))
             {
                 // perform move
-                if (pieces.TryGetValue(nextMove, out piece))
+                if (chessPieces.TryGetValue(pieceToMove, out piece))
                 {
                     moveToGrave(location);
                     piece.transform.position = FRToWorldPoint(location);
                     // Update new location of the piece
-                    pieces.Remove(nextMove);
-                    pieces.Add(location, piece);
+                    chessPieces.Remove(pieceToMove);
+                    chessPieces.Add(location, piece);
                 }
                 // Change player
                 if (currentPlayer == "White")
@@ -148,7 +146,7 @@ public class Chessboard : MonoBehaviour {
             }
 
             // Reset current move
-            nextMove = "";
+            pieceToMove = "";
             hightlightPiece("", false);
             highlightValidMoves(new string[] { }, false);
         }
@@ -161,7 +159,7 @@ public class Chessboard : MonoBehaviour {
     private void moveToGrave(string location)
     {
         GameObject piece;
-        if(pieces.TryGetValue(location, out piece))
+        if(chessPieces.TryGetValue(location, out piece))
         {
             if (piece.tag.Contains("Black"))
             {
@@ -189,7 +187,7 @@ public class Chessboard : MonoBehaviour {
                     whiteGrave.y += 1.0f;
                 }
             }
-            pieces.Remove(location);
+            chessPieces.Remove(location);
         }
     }
 
