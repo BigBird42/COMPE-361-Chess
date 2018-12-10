@@ -12,10 +12,12 @@ public class Chessboard : MonoBehaviour {
     static public Dictionary<string, GameObject> chessPieces;
     private Vector3 whiteGrave;
     private Vector3 blackGrave;
+    LinkedList<string> recordOfMoves;
 
     // Use this for initialization
     void Start () {
         chessPieces = new Dictionary<string, GameObject>();
+        recordOfMoves = new LinkedList<string>();
         ResetBoard();
     }
 	
@@ -35,6 +37,9 @@ public class Chessboard : MonoBehaviour {
             Destroy(pair.Value);
         }
         chessPieces.Clear();
+
+        // Clear record of moves
+        recordOfMoves.Clear();
 
         // Create black chess pieces in starting positions
         chessPieces.Add("e8", Instantiate(blackKingPrefab, FRToWorldPoint("e8"), Quaternion.identity));
@@ -77,6 +82,55 @@ public class Chessboard : MonoBehaviour {
         whiteGrave.y = -3.5f;
         blackGrave.x = 4.5f;
         blackGrave.y = 3.5f;
+    }
+
+    /// <summary>
+    /// Save game as a string to be written to a file
+    /// </summary>
+    /// <returns></returns>
+    public string SaveGame()
+    {
+        string saveState = "";
+        foreach(string move in recordOfMoves)
+        {
+            saveState += move;
+        }
+        return saveState;
+    }
+
+    /// <summary>
+    /// Load the game from a string
+    /// </summary>
+    /// <param name="saveState"></param>
+    public void LoadGame(string saveState)
+    {
+        ResetBoard();
+        string move = "";
+        for (int i = 0; i <= (saveState.Length-4);)
+        {
+            for (int j = 0; j < 4; j++, i++)
+            {
+                try
+                {
+                    move += saveState[i];
+                }
+                catch(System.IndexOutOfRangeException)
+                {
+                    return; // Reached end of save state, skipping partial move
+                }
+            }
+            // Skip records of move to grave, newPlayerMove will populate that for us
+            if(move[1] == 'G') { continue; }
+            try
+            {
+                newPlayerMove(FRToWorldPoint(move.Substring(0, 2)));
+                newPlayerMove(FRToWorldPoint(move.Substring(2, 2)));
+            }
+            catch(System.ArgumentException)
+            {
+                throw new System.ArgumentException("Corrupted save file");
+            }
+        }
     }
 
     private void OnMouseDown()
@@ -130,6 +184,9 @@ public class Chessboard : MonoBehaviour {
                     chessPieces.Remove(pieceToMove);
                     chessPieces.Add(location, piece);
                 }
+                // record last move
+                recordOfMoves.AddLast(pieceToMove + location);
+
                 // Change player
                 if (currentPlayer == "White")
                 {
@@ -177,6 +234,8 @@ public class Chessboard : MonoBehaviour {
                 {
                     blackGrave.y -= 1.0f;
                 }
+                // Record the move to black grave
+                recordOfMoves.AddLast("BG" + location);
             }
             else if (piece.tag.Contains("White"))
             {
@@ -190,6 +249,8 @@ public class Chessboard : MonoBehaviour {
                 {
                     whiteGrave.y += 1.0f;
                 }
+                // Record the move to white grave
+                recordOfMoves.AddLast("WG" + location);
             }
             chessPieces.Remove(location);
         }
