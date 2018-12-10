@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Black
   - White
+  - SelectedSquare
+  - TargetSquare
   layers:
   - Default
   - TransparentFX
@@ -43,6 +45,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer
+  - name: Board
+    uniqueID: 3360705701
+    locked: 0
+  - name: Indication
+    uniqueID: 2156775039
+    locked: 0
+  - name: Pieces
     uniqueID: 468772729
     locked: 0
