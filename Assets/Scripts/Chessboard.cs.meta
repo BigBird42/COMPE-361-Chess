@@ -4,15 +4,18 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - pawnPrefab: {fileID: 1957088640302594, guid: c2d89f4bf3881714bbe2a6303d202ed2,
-      type: 2}
-  - kingPrefab: {fileID: 1123814087835446, guid: 9be3d68c235a7964ab3d957f92fea899,
-      type: 2}
-  - queenPrefab: {fileID: 1298225485630752, guid: 58f347218bf5a3545b367162f22aae11,
-      type: 2}
-  - bishopPrefab: {instanceID: 0}
-  - knightPrefab: {instanceID: 0}
-  - rookPrefab: {instanceID: 0}
+  - blackPawnPrefab: {instanceID: 0}
+  - blackKingPrefab: {instanceID: 0}
+  - blackQueenPrefab: {instanceID: 0}
+  - blackBishopPrefab: {instanceID: 0}
+  - blackKnightPrefab: {instanceID: 0}
+  - blackRookPrefab: {instanceID: 0}
+  - whitePawnPrefab: {instanceID: 0}
+  - whiteKingPrefab: {instanceID: 0}
+  - whiteQueenPrefab: {instanceID: 0}
+  - whiteBishopPrefab: {instanceID: 0}
+  - whiteKnightPrefab: {instanceID: 0}
+  - whiteRookPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

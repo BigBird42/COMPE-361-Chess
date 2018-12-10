@@ -278,18 +278,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5025870c7f7e149b32c8b9501899bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackPawnPrefab: {fileID: 0}
-  blackKingPrefab: {fileID: 0}
-  blackQueenPrefab: {fileID: 0}
-  blackBishopPrefab: {fileID: 0}
-  blackKnightPrefab: {fileID: 0}
-  blackRookPrefab: {fileID: 0}
-  whitePawnPrefab: {fileID: 0}
-  whiteKingPrefab: {fileID: 0}
-  whiteQueenPrefab: {fileID: 0}
-  whiteBishopPrefab: {fileID: 0}
-  whiteKnightPrefab: {fileID: 0}
-  whiteRookPrefab: {fileID: 0}
+  blackPawnPrefab: {fileID: 1929567798969454, guid: 67d2a88abbac56643bda96e174db714a,
+    type: 2}
+  blackKingPrefab: {fileID: 1109517307375544, guid: 49505cfe93a38224ea0c51baa75b269b,
+    type: 2}
+  blackQueenPrefab: {fileID: 1566723493054208, guid: 72fef68ac9f65ca459f832ee01cd33bc,
+    type: 2}
+  blackBishopPrefab: {fileID: 1468468856979548, guid: 37c1cbb72b74968498f31c96ee3c76df,
+    type: 2}
+  blackKnightPrefab: {fileID: 1437907676672906, guid: ab8ea49104a908b43abb4787d8a97c9a,
+    type: 2}
+  blackRookPrefab: {fileID: 1154923889678164, guid: fc6b60b681526894f84f5f32eaf74b96,
+    type: 2}
+  whitePawnPrefab: {fileID: 1078938575819584, guid: d23cec0f5068b7c41bbe5aa35e2ece80,
+    type: 2}
+  whiteKingPrefab: {fileID: 1703277361588704, guid: f87d6f9ca8bf7b849a39cfe109406af1,
+    type: 2}
+  whiteQueenPrefab: {fileID: 1581996377902882, guid: 97dd5569826e3b44ebc2760788b4ad76,
+    type: 2}
+  whiteBishopPrefab: {fileID: 1249401102843782, guid: 4b8253937cb6d9746a2c9acb82a699ba,
+    type: 2}
+  whiteKnightPrefab: {fileID: 1868540392048256, guid: b71a91171a384f14a9d2876852adb32e,
+    type: 2}
+  whiteRookPrefab: {fileID: 1933078204375650, guid: 42544eeff8a662544a1d5bcc6d6bfcbf,
+    type: 2}
 --- !u!61 &1882363280
 BoxCollider2D:
   m_ObjectHideFlags: 0
