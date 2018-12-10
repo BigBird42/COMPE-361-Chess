@@ -8,6 +8,8 @@ public class Chessboard : MonoBehaviour {
     string nextMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> pieces;
+    private Vector3 whiteGrave;
+    private Vector3 blackGrave;
 
     // Use this for initialization
     void Start () {
@@ -24,13 +26,17 @@ public class Chessboard : MonoBehaviour {
         {
             pieces.Add(WorldPointToRF(piece.transform.position), piece);
         }
+        whiteGrave.x = -4.5f;
+        whiteGrave.y = -3.5f;
+        blackGrave.x = 4.5f;
+        blackGrave.y = 3.5f;
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-
+    
     private void OnMouseDown()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -40,53 +46,96 @@ public class Chessboard : MonoBehaviour {
         }
         else
         {
-            string location = WorldPointToRF(mousePos);
-            GameObject piece;
-
-            // If this is the first selection on this turn
-            if(nextMove.Length == 0)
-            {
-                if (pieces.TryGetValue(location, out piece))
-                {
-                    if(piece.tag == currentPlayer)
-                    {
-                        nextMove += location;
-                    }
-                }
-            }
-            else if (nextMove.Length == 2)
-            {
-                // See if move is valid
-                if (isValidMove(nextMove + location))
-                {
-                    // if valid, perform move
-                    if (pieces.TryGetValue(nextMove, out piece))
-                    {
-                        // If location is occupied by an opponent piece, move it to the graveyard first
-                        piece.transform.position = RFToWorldPoint(location);
-                        pieces.Remove(nextMove);
-                        pieces.Add(location, piece);
-                    }
-                    // Change player
-                    if (currentPlayer == "White")
-                    {
-                        currentPlayer = "Black";
-                    }
-                    else if (currentPlayer == "Black")
-                    {
-                        currentPlayer = "White";
-                    }
-                    else
-                    {
-                        throw new System.Exception("currentPlayer is invalid somehow");
-                    }
-                }
-                nextMove = "";
-            }
-            
+            newPlayerMove(mousePos);
         }
 
         return;
+    }
+    
+
+    public void newPlayerMove(Vector3 mousePos)
+    {
+        string location = WorldPointToRF(mousePos);
+        GameObject piece;
+
+        // If this is the first selection on this turn
+        if (nextMove.Length == 0)
+        {
+            if (pieces.TryGetValue(location, out piece))
+            {
+                if (piece.tag == currentPlayer)
+                {
+                    nextMove += location;
+                }
+            }
+        }
+        else if (nextMove.Length == 2)
+        {
+            // See if move is valid
+            if (isValidMove(nextMove + location))
+            {
+                // perform move
+                if (pieces.TryGetValue(nextMove, out piece))
+                {
+                    moveToGrave(location);
+                    piece.transform.position = RFToWorldPoint(location);
+                    pieces.Remove(nextMove);
+                    pieces.Add(location, piece);
+                }
+                // Change player
+                if (currentPlayer == "White")
+                {
+                    currentPlayer = "Black";
+                }
+                else if (currentPlayer == "Black")
+                {
+                    currentPlayer = "White";
+                }
+                else
+                {
+                    throw new System.Exception("currentPlayer is invalid somehow");
+                }
+            }
+            nextMove = "";
+        }
+    }
+    /// <summary>
+    /// Moves a piece to the graveyard, does nothing if there is no piece at location
+    /// </summary>
+    /// <param name="location"></param>
+    private void moveToGrave(string location)
+    {
+        GameObject piece;
+        if(pieces.TryGetValue(location, out piece))
+        {
+            if (piece.name[1] == 'D')
+            {
+                piece.transform.position = blackGrave;
+                if(blackGrave.y < -3.0f)
+                {
+                    blackGrave.x = 5.5f;
+                    blackGrave.y = 3.5f;
+                }
+                else
+                {
+                    blackGrave.y -= 1.0f;
+                }
+            }
+            else if (piece.name[1] == 'L')
+            {
+                piece.transform.position = whiteGrave;
+                if (whiteGrave.y > 3.0f)
+                {
+                    whiteGrave.x = -5.5f;
+                    whiteGrave.y = -3.5f;
+                }
+                else
+                {
+                    whiteGrave.y += 1.0f;
+                }
+            }
+            pieces.Remove(location);
+        }
     }
 
     /// <summary>
