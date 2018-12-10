@@ -161,6 +161,10 @@ public class Chessboard : MonoBehaviour {
         GameObject piece;
         if(chessPieces.TryGetValue(location, out piece))
         {
+            if (piece.tag.Contains(currentPlayer))
+            {
+                return;
+            }
             if (piece.tag.Contains("Black"))
             {
                 piece.transform.position = blackGrave;
