@@ -39,40 +39,40 @@ public class Chessboard : MonoBehaviour {
         pieces.Clear();
 
         // Create black pieces in starting positions
-        pieces.Add("e8", Instantiate(blackKingPrefab, RFToWorldPoint("e8"), Quaternion.identity));
-        pieces.Add("d8", Instantiate(blackQueenPrefab, RFToWorldPoint("d8"), Quaternion.identity));
-        pieces.Add("c8", Instantiate(blackBishopPrefab, RFToWorldPoint("c8"), Quaternion.identity));
-        pieces.Add("f8", Instantiate(blackBishopPrefab, RFToWorldPoint("f8"), Quaternion.identity));
-        pieces.Add("b8", Instantiate(blackKnightPrefab, RFToWorldPoint("b8"), Quaternion.identity));
-        pieces.Add("g8", Instantiate(blackKnightPrefab, RFToWorldPoint("g8"), Quaternion.identity));
-        pieces.Add("a8", Instantiate(blackRookPrefab, RFToWorldPoint("a8"), Quaternion.identity));
-        pieces.Add("h8", Instantiate(blackRookPrefab, RFToWorldPoint("h8"), Quaternion.identity));
-        pieces.Add("a7", Instantiate(blackPawnPrefab, RFToWorldPoint("a7"), Quaternion.identity));
-        pieces.Add("b7", Instantiate(blackPawnPrefab, RFToWorldPoint("b7"), Quaternion.identity));
-        pieces.Add("c7", Instantiate(blackPawnPrefab, RFToWorldPoint("c7"), Quaternion.identity));
-        pieces.Add("d7", Instantiate(blackPawnPrefab, RFToWorldPoint("d7"), Quaternion.identity));
-        pieces.Add("e7", Instantiate(blackPawnPrefab, RFToWorldPoint("e7"), Quaternion.identity));
-        pieces.Add("f7", Instantiate(blackPawnPrefab, RFToWorldPoint("f7"), Quaternion.identity));
-        pieces.Add("g7", Instantiate(blackPawnPrefab, RFToWorldPoint("g7"), Quaternion.identity));
-        pieces.Add("h7", Instantiate(blackPawnPrefab, RFToWorldPoint("h7"), Quaternion.identity));
+        pieces.Add("e8", Instantiate(blackKingPrefab, FRToWorldPoint("e8"), Quaternion.identity));
+        pieces.Add("d8", Instantiate(blackQueenPrefab, FRToWorldPoint("d8"), Quaternion.identity));
+        pieces.Add("c8", Instantiate(blackBishopPrefab, FRToWorldPoint("c8"), Quaternion.identity));
+        pieces.Add("f8", Instantiate(blackBishopPrefab, FRToWorldPoint("f8"), Quaternion.identity));
+        pieces.Add("b8", Instantiate(blackKnightPrefab, FRToWorldPoint("b8"), Quaternion.identity));
+        pieces.Add("g8", Instantiate(blackKnightPrefab, FRToWorldPoint("g8"), Quaternion.identity));
+        pieces.Add("a8", Instantiate(blackRookPrefab, FRToWorldPoint("a8"), Quaternion.identity));
+        pieces.Add("h8", Instantiate(blackRookPrefab, FRToWorldPoint("h8"), Quaternion.identity));
+        pieces.Add("a7", Instantiate(blackPawnPrefab, FRToWorldPoint("a7"), Quaternion.identity));
+        pieces.Add("b7", Instantiate(blackPawnPrefab, FRToWorldPoint("b7"), Quaternion.identity));
+        pieces.Add("c7", Instantiate(blackPawnPrefab, FRToWorldPoint("c7"), Quaternion.identity));
+        pieces.Add("d7", Instantiate(blackPawnPrefab, FRToWorldPoint("d7"), Quaternion.identity));
+        pieces.Add("e7", Instantiate(blackPawnPrefab, FRToWorldPoint("e7"), Quaternion.identity));
+        pieces.Add("f7", Instantiate(blackPawnPrefab, FRToWorldPoint("f7"), Quaternion.identity));
+        pieces.Add("g7", Instantiate(blackPawnPrefab, FRToWorldPoint("g7"), Quaternion.identity));
+        pieces.Add("h7", Instantiate(blackPawnPrefab, FRToWorldPoint("h7"), Quaternion.identity));
 
         // Create white pieces in starting positions
-        pieces.Add("e1", Instantiate(whiteKingPrefab, RFToWorldPoint("e1"), Quaternion.identity));
-        pieces.Add("d1", Instantiate(whiteQueenPrefab, RFToWorldPoint("d1"), Quaternion.identity));
-        pieces.Add("c1", Instantiate(whiteBishopPrefab, RFToWorldPoint("c1"), Quaternion.identity));
-        pieces.Add("f1", Instantiate(whiteBishopPrefab, RFToWorldPoint("f1"), Quaternion.identity));
-        pieces.Add("b1", Instantiate(whiteKnightPrefab, RFToWorldPoint("b1"), Quaternion.identity));
-        pieces.Add("g1", Instantiate(whiteKnightPrefab, RFToWorldPoint("g1"), Quaternion.identity));
-        pieces.Add("a1", Instantiate(whiteRookPrefab, RFToWorldPoint("a1"), Quaternion.identity));
-        pieces.Add("h1", Instantiate(whiteRookPrefab, RFToWorldPoint("h1"), Quaternion.identity));
-        pieces.Add("a2", Instantiate(whitePawnPrefab, RFToWorldPoint("a2"), Quaternion.identity));
-        pieces.Add("b2", Instantiate(whitePawnPrefab, RFToWorldPoint("b2"), Quaternion.identity));
-        pieces.Add("c2", Instantiate(whitePawnPrefab, RFToWorldPoint("c2"), Quaternion.identity));
-        pieces.Add("d2", Instantiate(whitePawnPrefab, RFToWorldPoint("d2"), Quaternion.identity));
-        pieces.Add("e2", Instantiate(whitePawnPrefab, RFToWorldPoint("e2"), Quaternion.identity));
-        pieces.Add("f2", Instantiate(whitePawnPrefab, RFToWorldPoint("f2"), Quaternion.identity));
-        pieces.Add("g2", Instantiate(whitePawnPrefab, RFToWorldPoint("g2"), Quaternion.identity));
-        pieces.Add("h2", Instantiate(whitePawnPrefab, RFToWorldPoint("h2"), Quaternion.identity));
+        pieces.Add("e1", Instantiate(whiteKingPrefab, FRToWorldPoint("e1"), Quaternion.identity));
+        pieces.Add("d1", Instantiate(whiteQueenPrefab, FRToWorldPoint("d1"), Quaternion.identity));
+        pieces.Add("c1", Instantiate(whiteBishopPrefab, FRToWorldPoint("c1"), Quaternion.identity));
+        pieces.Add("f1", Instantiate(whiteBishopPrefab, FRToWorldPoint("f1"), Quaternion.identity));
+        pieces.Add("b1", Instantiate(whiteKnightPrefab, FRToWorldPoint("b1"), Quaternion.identity));
+        pieces.Add("g1", Instantiate(whiteKnightPrefab, FRToWorldPoint("g1"), Quaternion.identity));
+        pieces.Add("a1", Instantiate(whiteRookPrefab, FRToWorldPoint("a1"), Quaternion.identity));
+        pieces.Add("h1", Instantiate(whiteRookPrefab, FRToWorldPoint("h1"), Quaternion.identity));
+        pieces.Add("a2", Instantiate(whitePawnPrefab, FRToWorldPoint("a2"), Quaternion.identity));
+        pieces.Add("b2", Instantiate(whitePawnPrefab, FRToWorldPoint("b2"), Quaternion.identity));
+        pieces.Add("c2", Instantiate(whitePawnPrefab, FRToWorldPoint("c2"), Quaternion.identity));
+        pieces.Add("d2", Instantiate(whitePawnPrefab, FRToWorldPoint("d2"), Quaternion.identity));
+        pieces.Add("e2", Instantiate(whitePawnPrefab, FRToWorldPoint("e2"), Quaternion.identity));
+        pieces.Add("f2", Instantiate(whitePawnPrefab, FRToWorldPoint("f2"), Quaternion.identity));
+        pieces.Add("g2", Instantiate(whitePawnPrefab, FRToWorldPoint("g2"), Quaternion.identity));
+        pieces.Add("h2", Instantiate(whitePawnPrefab, FRToWorldPoint("h2"), Quaternion.identity));
 
         // Initialize the starting location of the white and black graveyard
         whiteGrave.x = -4.5f;
@@ -102,7 +102,7 @@ public class Chessboard : MonoBehaviour {
     /// <param name="mousePos"></param>
     public void newPlayerMove(Vector3 mousePos)
     {
-        string location = WorldPointToRF(mousePos);
+        string location = WorldPointToFR(mousePos);
         GameObject piece;
 
         // If this is the first selection on this turn
@@ -127,7 +127,7 @@ public class Chessboard : MonoBehaviour {
                 if (pieces.TryGetValue(nextMove, out piece))
                 {
                     moveToGrave(location);
-                    piece.transform.position = RFToWorldPoint(location);
+                    piece.transform.position = FRToWorldPoint(location);
                     // Update new location of the piece
                     pieces.Remove(nextMove);
                     pieces.Add(location, piece);
@@ -202,7 +202,7 @@ public class Chessboard : MonoBehaviour {
     {
         if (enable)
         {
-            Instantiate(selectedSquare, RFToWorldPoint(location), Quaternion.identity);
+            Instantiate(selectedSquare, FRToWorldPoint(location), Quaternion.identity);
         }
         else
         {
@@ -221,7 +221,7 @@ public class Chessboard : MonoBehaviour {
         {
             foreach(string location in locations)
             {
-                Instantiate(targetSquare, RFToWorldPoint(location), Quaternion.identity);
+                Instantiate(targetSquare, FRToWorldPoint(location), Quaternion.identity);
             }
         }
         else
@@ -235,9 +235,9 @@ public class Chessboard : MonoBehaviour {
     }
 
     /// <summary>
-    /// Convert world point in unity to rank and file location on board
+    /// Convert world point in unity to file and rank location on board
     /// </summary>
-    private string WorldPointToRF(Vector3 pos)
+    private string WorldPointToFR(Vector3 pos)
     {
         string location = "";
         if (pos.x < -4.0f) { throw new System.ArgumentException("pos to the left of the board"); }
@@ -266,9 +266,9 @@ public class Chessboard : MonoBehaviour {
     }
 
     /// <summary>
-    /// Convert rank and file location on board to world point in unity
+    /// Convert file and rank location on board to world point in unity
     /// </summary>
-    private Vector3 RFToWorldPoint(string location)
+    private Vector3 FRToWorldPoint(string location)
     {
         float x = 0, y = 0;
         if(location[0] == 'a') { x = -3.5f; }
