@@ -108,7 +108,7 @@ public class Chessboard : MonoBehaviour {
         GameObject piece;
         if(pieces.TryGetValue(location, out piece))
         {
-            if (piece.name[1] == 'D')
+            if (piece.name[1] == 'B')
             {
                 piece.transform.position = blackGrave;
                 if(blackGrave.y < -3.0f)
@@ -121,7 +121,7 @@ public class Chessboard : MonoBehaviour {
                     blackGrave.y -= 1.0f;
                 }
             }
-            else if (piece.name[1] == 'L')
+            else if (piece.name[1] == 'W')
             {
                 piece.transform.position = whiteGrave;
                 if (whiteGrave.y > 3.0f)
