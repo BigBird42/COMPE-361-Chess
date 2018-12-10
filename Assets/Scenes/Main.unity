@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 358495991}
   - component: {fileID: 358495990}
   m_Layer: 0
-  m_Name: KL
+  m_Name: KL0
   m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1325,7 +1325,7 @@ GameObject:
   - component: {fileID: 947961921}
   - component: {fileID: 947961920}
   m_Layer: 0
-  m_Name: KD
+  m_Name: KD0
   m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1700,7 +1700,7 @@ GameObject:
   - component: {fileID: 1187195162}
   - component: {fileID: 1187195161}
   m_Layer: 0
-  m_Name: QL
+  m_Name: QL0
   m_TagString: White
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2300,7 +2300,7 @@ GameObject:
   - component: {fileID: 1652798937}
   - component: {fileID: 1652798936}
   m_Layer: 0
-  m_Name: QD
+  m_Name: QD0
   m_TagString: Black
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
