@@ -10,6 +10,7 @@ public class Chessboard : MonoBehaviour {
     public GameObject targetSquare;
     public Text inCheckIndicator;
     public Text currentPlayerIndicator;
+    public Text playerWonIndicator;
     string pieceToMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> chessPieces;
@@ -17,6 +18,7 @@ public class Chessboard : MonoBehaviour {
     private Vector3 blackGrave;
     List<string> recordOfMoves;
     int recordOfMovesIdx;
+    private bool stillPlaing;
 
     // Use this for initialization
     void Start () {
@@ -33,12 +35,16 @@ public class Chessboard : MonoBehaviour {
 
     private void ResetBoard()
     {
+        // reset still playing boolean
+        stillPlaing = true;
+
         // Reset starting player
         currentPlayer = "White";
 
         // Reset onscreen indicators
         inCheckIndicator.text = "";
         currentPlayerIndicator.text = "Current player is " + currentPlayer;
+        playerWonIndicator.text = "";
 
         // Remove all chess pieces from board
         foreach (KeyValuePair<string, GameObject> pair in chessPieces)
@@ -145,7 +151,12 @@ public class Chessboard : MonoBehaviour {
         }
         else
         {
-            newPlayerMove(mousePos);
+            // if game is still in session
+            if (stillPlaing)
+            {
+                newPlayerMove(mousePos);
+            }
+
         }
 
         return;
@@ -196,6 +207,16 @@ public class Chessboard : MonoBehaviour {
                 recordOfMoves.Add(pieceToMove + location);
                 recordOfMovesIdx++;
                 
+                if (!stillPlaing)
+                {
+                    // Could have been changed by call to moveToGrave, we want to finish
+                    // the killing blow and record the move, but now change player
+                    // Reset current move
+                    pieceToMove = "";
+                    hightlightPiece("", false);
+                    highlightValidMoves(new string[] { }, false);
+                    return;
+                }
 
                 // Change player
                 if (currentPlayer == "White")
@@ -270,6 +291,11 @@ public class Chessboard : MonoBehaviour {
                 // Record the move to white grave
                 recordOfMoves.Add("WG" + location);
                 recordOfMovesIdx++;
+            }
+            if (piece.tag.Contains("King"))
+            {
+                playerWonIndicator.text = currentPlayer + " has won the game!";
+                stillPlaing = false;
             }
             chessPieces.Remove(location);
         }
