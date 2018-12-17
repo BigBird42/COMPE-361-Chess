@@ -19,7 +19,7 @@ public class Chessboard : MonoBehaviour {
         chessPieces = new Dictionary<string, GameObject>();
         recordOfMoves = new LinkedList<string>();
         ResetBoard();
-        //LoadGame("a2a3a7a6b1c3g8h6");
+        LoadGame("a2a3a7a6b1c3g8h6");
     }
 
     // Update is called once per frame
@@ -260,7 +260,11 @@ public class Chessboard : MonoBehaviour {
         }
         else
         {
-            Destroy(GameObject.FindGameObjectWithTag("SelectedSquare"));
+            GameObject[] highlightedLocations = GameObject.FindGameObjectsWithTag("SelectedSquare");
+            foreach (GameObject targetIndicator in highlightedLocations)
+            {
+                Destroy(targetIndicator);
+            }
         }
     }
 
