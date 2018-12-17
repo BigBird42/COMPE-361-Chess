@@ -8,7 +8,8 @@ public class Chessboard : MonoBehaviour {
     public GameObject whitePawnPrefab, whiteKingPrefab, whiteQueenPrefab, whiteBishopPrefab, whiteKnightPrefab, whiteRookPrefab;
     public GameObject selectedSquare;
     public GameObject targetSquare;
-    public Text inCheck;
+    public Text inCheckIndicator;
+    public Text currentPlayerIndicator;
     string pieceToMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> chessPieces;
@@ -35,8 +36,9 @@ public class Chessboard : MonoBehaviour {
         // Reset starting player
         currentPlayer = "White";
 
-        // Reset check warning
-        inCheck.text = "";
+        // Reset onscreen indicators
+        inCheckIndicator.text = "";
+        currentPlayerIndicator.text = "Current player is " + currentPlayer;
 
         // Remove all chess pieces from board
         foreach (KeyValuePair<string, GameObject> pair in chessPieces)
@@ -208,8 +210,11 @@ public class Chessboard : MonoBehaviour {
                 {
                     throw new System.Exception("currentPlayer is invalid somehow");
                 }
+                // Indicate current player
+                currentPlayerIndicator.text = "Current player is " + currentPlayer;
+
                 // Determine if the new player is in check
-                isInCheck();
+                isinCheckIndicator();
             }
 
             // Reset current move
@@ -301,7 +306,7 @@ public class Chessboard : MonoBehaviour {
     /// Displays warning on screen if player is in check
     /// </summary>
     /// <returns></returns>
-    private void isInCheck()
+    private void isinCheckIndicator()
     {
         string inCheckBy = "";
         if(currentPlayer == "White")
@@ -326,11 +331,11 @@ public class Chessboard : MonoBehaviour {
             // If in  check list pieces checking king
             if(inCheckBy.Length != 0)
             {
-                inCheck.text = "White is in check by black " + inCheckBy.Substring(0, inCheckBy.Length - 2);
+                inCheckIndicator.text = "White is in check by black " + inCheckBy.Substring(0, inCheckBy.Length - 2);
             }
             else
             {
-                inCheck.text = "";
+                inCheckIndicator.text = "";
             }
         }
         else if (currentPlayer == "Black")
@@ -355,11 +360,11 @@ public class Chessboard : MonoBehaviour {
             // If in  check list pieces checking king
             if (inCheckBy.Length != 0)
             {
-                inCheck.text = "Black is in check by white " + inCheckBy.Substring(0, inCheckBy.Length - 2);
+                inCheckIndicator.text = "Black is in check by white " + inCheckBy.Substring(0, inCheckBy.Length - 2);
             }
             else
             {
-                inCheck.text = "";
+                inCheckIndicator.text = "";
             }
         }
         else
