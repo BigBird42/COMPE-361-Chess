@@ -18,7 +18,7 @@ public class Chessboard : MonoBehaviour {
     private Vector3 blackGrave;
     List<string> recordOfMoves;
     int recordOfMovesIdx;
-    private bool stillPlaing;
+    private bool stillPlaying;
 
     // Use this for initialization
     void Start () {
@@ -36,7 +36,7 @@ public class Chessboard : MonoBehaviour {
     private void ResetBoard()
     {
         // reset still playing boolean
-        stillPlaing = true;
+        stillPlaying = true;
 
         // Reset starting player
         currentPlayer = "White";
@@ -152,7 +152,7 @@ public class Chessboard : MonoBehaviour {
         else
         {
             // if game is still in session
-            if (stillPlaing)
+            if (stillPlaying)
             {
                 newPlayerMove(mousePos);
             }
@@ -207,14 +207,14 @@ public class Chessboard : MonoBehaviour {
                 recordOfMoves.Add(pieceToMove + location);
                 recordOfMovesIdx++;
                 
-                if (!stillPlaing)
+                if (!stillPlaying)
                 {
                     // Could have been changed by call to moveToGrave, we want to finish
                     // the killing blow and record the move, but now change player
                     // Reset current move
                     pieceToMove = "";
                     hightlightPiece("", false);
-                    highlightValidMoves(new string[] { }, false);
+                    highlightValidMoves(new LinkedList<string> { }, false);
                     return;
                 }
 
@@ -234,13 +234,13 @@ public class Chessboard : MonoBehaviour {
                 // Indicate current player
                 currentPlayerIndicator.text = "Current player is " + currentPlayer;
 
-                checkIfInCheck();
+                //checkIfInCheck();
             }
 
             // Reset current move
             pieceToMove = "";
             hightlightPiece("", false);
-            highlightValidMoves(new string[] { }, false);
+            highlightValidMoves(new LinkedList<string> { }, false);
         }
     }
 
@@ -294,7 +294,7 @@ public class Chessboard : MonoBehaviour {
             if (piece.tag.Contains("King"))
             {
                 playerWonIndicator.text = currentPlayer + " has won the game!";
-                stillPlaing = false;
+                stillPlaying = false;
             }
             chessPieces.Remove(location);
         }
@@ -425,7 +425,7 @@ public class Chessboard : MonoBehaviour {
     /// </summary>
     /// <param name="locations"></param>
     /// <param name="enable"></param>
-    private void highlightValidMoves(string[] locations, bool enable)
+    private void highlightValidMoves(LinkedList<string> locations, bool enable)
     {
         if (enable)
         {
@@ -516,7 +516,15 @@ public class Chessboard : MonoBehaviour {
     private bool isValidMove(string move)
     {
         GameObject piece = chessPieces[pieceToMove];
-
+        GameObject other;
+        if (chessPieces.TryGetValue(move, out other))    // Piece exists at target location
+        {
+            //  Pieces belong to same player
+            if (piece.tag.Contains("White") && other.tag.Contains("White"))
+                return false;
+            if (piece.tag.Contains("Black") && other.tag.Contains("Black"))
+                return false;
+        }
         if (piece.tag == "WhitePawn")
         {
             return isValidMoveWhitePawn(move);
@@ -545,7 +553,8 @@ public class Chessboard : MonoBehaviour {
         {
             return isValidMoveKing(move);
         }
-        return true; // Just for testing, implement later
+        else
+            return false;
     }
 
     /// <summary>
@@ -553,14 +562,44 @@ public class Chessboard : MonoBehaviour {
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
-    private string[] validMoveLocations(string location)
+    private LinkedList<string> validMoveLocations(string location)
     {
-        return new string[] { "a1", "a2", "b1", "b2" }; // Just for testing, implement later
+        GameObject piece = chessPieces[location];
+        if (piece.tag == "WhitePawn")
+        {
+            return validLocationsWhitePawn(location);
+        }
+        if (piece.tag == "BlackPawn")
+        {
+            return validLocationsBlackPawn(location);
+        }
+        if (piece.tag.Contains("Rook"))
+        {
+            return validLocationsRook(location);
+        }
+        if (piece.tag.Contains("Knight"))
+        {
+            return validLocationsKnight(location);
+        }
+        if (piece.tag.Contains("Bishop"))
+        {
+            return validLocationsBishop(location);
+        }
+        if (piece.tag.Contains("Queen"))
+        {
+            return validLocationsQueen(location);
+        }
+        if (piece.tag.Contains("King"))
+        {
+            return validLocationsKing(location);
+        }
+        return new LinkedList<string>(); // Just for testing, implement later
     }
 
     // helper methods for isValidMove
     private bool isValidMoveWhitePawn(string move)
     {
+        LinkedList<Vector3> possibleLocations = new LinkedList<Vector3>();
         Vector3 pos1 = FRToWorldPoint(pieceToMove);
         Vector3 pos2 = FRToWorldPoint(pieceToMove);
         Vector3 pos3 = FRToWorldPoint(pieceToMove);
@@ -575,10 +614,40 @@ public class Chessboard : MonoBehaviour {
         pos3.y++;
         pos4.x--;
         pos4.y++;
-        if (move.Equals(WorldPointToFR(pos1)) || move.Equals(WorldPointToFR(pos2)) || move.Equals(WorldPointToFR(pos3)) || move.Equals(WorldPointToFR(pos4)))
-            return true;
-        else
-            return false;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(pos1);
+        }
+
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos2), out other) && !chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(pos2);
+        }
+
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos3), out other))    // Piece exists at target location
+                possibleLocations.AddLast(pos3);
+        }
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos4), out other))    // Piece exists at target location
+                possibleLocations.AddLast(pos4);
+        }
+
+        foreach (Vector3 loc in possibleLocations)
+        {
+            if (move.Equals(WorldPointToFR(loc)))
+                return true;
+        }
+        return false;
     }
     private bool isValidMoveBlackPawn(string move)
     {
@@ -599,13 +668,30 @@ public class Chessboard : MonoBehaviour {
         pos4.y--;
 
         if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
-            possibleLocations.AddLast(pos1);
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(pos1);
+        }
+
         if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
-            possibleLocations.AddLast(pos2);
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos2), out other) && !chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(pos2);
+        }
         if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
-            possibleLocations.AddLast(pos3);
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos3), out other))    // Piece exists at target location
+                possibleLocations.AddLast(pos3);
+        }
         if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
-            possibleLocations.AddLast(pos4);
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos4), out other))    // Piece exists at target location
+                possibleLocations.AddLast(pos4);
+        }
 
         foreach (Vector3 loc in possibleLocations)
         {
@@ -865,5 +951,335 @@ public class Chessboard : MonoBehaviour {
                 return true;
         }
         return false;
+    }
+
+    private LinkedList<string> validLocationsWhitePawn(string location)
+    {
+        LinkedList<string> possibleLocations = new LinkedList<string>();
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+
+        pos1.y++;
+        // If first move
+        if (pos2.y == -2.5f)
+            pos2.y = pos2.y + 2;
+        // If piece diagonal
+        pos3.x++;
+        pos3.y++;
+        pos4.x--;
+        pos4.y++;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos1));
+        }
+
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos2), out other) && !chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos2));
+        }
+
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos3), out other))    // Piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos3));
+        }
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos4), out other))    // Piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos4));
+        }
+        return possibleLocations;
+    }
+    private LinkedList<string> validLocationsBlackPawn(string location)
+    {
+        LinkedList<string> possibleLocations = new LinkedList<string>();
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+
+        pos1.y--;
+        // If first move
+        if (pos2.y == 2.5f)
+            pos2.y = pos2.y - 2;
+        // If piece diagonal
+        pos3.x++;
+        pos3.y--;
+        pos4.x--;
+        pos4.y--;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos1));
+        }
+
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+        {
+            GameObject other;
+            if (!chessPieces.TryGetValue(WorldPointToFR(pos2), out other) && !chessPieces.TryGetValue(WorldPointToFR(pos1), out other))    // No piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos2));
+        }
+
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos3), out other))    // Piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos3));
+        }
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+        {
+            GameObject other;
+            if (chessPieces.TryGetValue(WorldPointToFR(pos4), out other))    // Piece exists at target location
+                possibleLocations.AddLast(WorldPointToFR(pos4));
+        }
+        return possibleLocations;
+    }
+    private LinkedList<string> validLocationsRook(string location)
+    {
+        LinkedList<string> possibleLocations = new LinkedList<string>();
+        Vector3 pos = FRToWorldPoint(pieceToMove);
+
+        for (float x = pos.x++; x < 4.0f; x++)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+            {
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, pos.y)));
+            }
+        }
+        for (float x = pos.x--; x > -4.0f; x--)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+            {
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, pos.y)));
+            }
+        }
+        for (float y = pos.y++; y < 4.0f; y++)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+            {
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(pos.x, y)));
+            }
+        }
+        for (float y = pos.y--; y > -4.0f; y--)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+            {
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(pos.x, y)));
+            }
+        }
+        return possibleLocations;
+    }
+    private LinkedList<string> validLocationsKnight(string location)
+    {
+        LinkedList<string> possibleLocations = new LinkedList<string>();
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+        Vector3 pos5 = FRToWorldPoint(pieceToMove);
+        Vector3 pos6 = FRToWorldPoint(pieceToMove);
+        Vector3 pos7 = FRToWorldPoint(pieceToMove);
+        Vector3 pos8 = FRToWorldPoint(pieceToMove);
+
+        pos1.y++;
+        pos1.x -= 2;
+        pos2.y += 2;
+        pos2.x--;
+        pos3.y++;
+        pos3.x += 2;
+        pos4.y += 2;
+        pos4.x++;
+        pos5.x++;
+        pos5.y -= 2;
+        pos6.x += 2;
+        pos6.y--;
+        pos7.y--;
+        pos7.x -= 2;
+        pos8.y -= 2;
+        pos8.x--;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos1));
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos2));
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos3));
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos4));
+        if (pos5.x > -4.0f && pos5.x < 4.0f && pos5.y > -4.0f && pos5.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos5));
+        if (pos6.x > -4.0f && pos6.x < 4.0f && pos6.y > -4.0f && pos6.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos6));
+        if (pos7.x > -4.0f && pos7.x < 4.0f && pos7.y > -4.0f && pos7.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos7));
+        if (pos8.x > -4.0f && pos8.x < 4.0f && pos8.y > -4.0f && pos8.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos8));
+
+        return possibleLocations;
+    }
+    private LinkedList<string> validLocationsBishop(string location)
+    {
+        LinkedList<string> possibleLocations = new LinkedList<string>();
+        Vector3 pos = FRToWorldPoint(pieceToMove);
+        float x = pos.x;
+        float y = pos.y;
+
+        while (x < 4.0f && y < 4.0f)
+        {
+            x++;
+            y++;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, y)));
+        }
+        x = pos.x;
+        y = pos.y;
+        while (x < 4.0f && y > -4.0f)
+        {
+            x++;
+            y--;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, y)));
+        }
+        x = pos.x;
+        y = pos.y;
+        while (x > -4.0f && y > -4.0f)
+        {
+            x--;
+            y--;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, y)));
+        }
+        x = pos.x;
+        y = pos.y;
+        while (x > -4.0f && y < 4.0f)
+        {
+            x--;
+            y++;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, y)));
+        }
+
+        return possibleLocations;
+    }
+    private LinkedList<string> validLocationsQueen(string location)
+    {
+        LinkedList<string> possibleLocations = new LinkedList<string>();
+        Vector3 pos = FRToWorldPoint(pieceToMove);
+
+        for (float x = pos.x++; x < 4.0f; x++)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, pos.y)));
+        }
+        for (float x = pos.x--; x > -4.0f; x--)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, pos.y)));
+        }
+        for (float y = pos.y++; y < 4.0f; y++)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(pos.x, y)));
+        }
+        for (float y = pos.y--; y > -4.0f; y--)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(pos.x, y)));
+        }
+
+        float row = pos.x;
+        float col = pos.y;
+
+        while (row < 4.0f && col < 4.0f)
+        {
+            row++;
+            col++;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
+        }
+        row = pos.x;
+        col = pos.y;
+        while (row < 4.0f && col > -4.0f)
+        {
+            row++;
+            col--;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
+        }
+        row = pos.x;
+        col = pos.y;
+        while (row > -4.0f && col > -4.0f)
+        {
+            row--;
+            col--;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
+        }
+        row = pos.x;
+        col = pos.y;
+        while (row > -4.0f && col < 4.0f)
+        {
+            row--;
+            col++;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
+        }
+
+        return possibleLocations;
+    }
+    private LinkedList<string> validLocationsKing(string location)
+    {
+        LinkedList<string> possibleLocations = new LinkedList<string>();
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+        Vector3 pos5 = FRToWorldPoint(pieceToMove);
+        Vector3 pos6 = FRToWorldPoint(pieceToMove);
+        Vector3 pos7 = FRToWorldPoint(pieceToMove);
+        Vector3 pos8 = FRToWorldPoint(pieceToMove);
+
+        pos1.y++;
+        pos2.x++;
+        pos2.y++;
+        pos3.x++;
+        pos4.x++;
+        pos4.y--;
+        pos5.y--;
+        pos6.x--;
+        pos6.y--;
+        pos7.x--;
+        pos8.x--;
+        pos8.y++;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos1));
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos2));
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos3));
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos4));
+        if (pos5.x > -4.0f && pos5.x < 4.0f && pos5.y > -4.0f && pos5.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos5));
+        if (pos6.x > -4.0f && pos6.x < 4.0f && pos6.y > -4.0f && pos6.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos6));
+        if (pos7.x > -4.0f && pos7.x < 4.0f && pos7.y > -4.0f && pos7.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos7));
+        if (pos8.x > -4.0f && pos8.x < 4.0f && pos8.y > -4.0f && pos8.y < 4.0f)
+            possibleLocations.AddLast(WorldPointToFR(pos8));
+
+        return possibleLocations;
     }
 }
