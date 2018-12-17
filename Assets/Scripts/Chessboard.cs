@@ -176,6 +176,11 @@ public class Chessboard : MonoBehaviour {
                     // Update new location of the piece
                     chessPieces.Remove(pieceToMove);
                     chessPieces.Add(location, piece);
+                    // Promote pawns to Queens
+                    if(piece.tag.Contains("Pawn") && (location[1] == '8' || location[1] == '1'))
+                    {
+                        pawnPromotion(location);
+                    }
                 }
                 // record last move
                 recordOfMoves.Add(pieceToMove + location);
@@ -212,10 +217,12 @@ public class Chessboard : MonoBehaviour {
         GameObject piece;
         if(chessPieces.TryGetValue(location, out piece))
         {
+            /*
             if (piece.tag.Contains(currentPlayer))
             {
                 return;
             }
+            */
             if (piece.tag.Contains("Black"))
             {
                 piece.transform.position = blackGrave;
@@ -249,6 +256,33 @@ public class Chessboard : MonoBehaviour {
                 recordOfMovesIdx++;
             }
             chessPieces.Remove(location);
+        }
+    }
+
+    /// <summary>
+    /// Promotes a pawn at the location to a Queen
+    /// </summary>
+    /// <param name="location"></param>
+    private void pawnPromotion(string location)
+    {
+        GameObject piece;
+        if (chessPieces.TryGetValue(location, out piece))
+        {
+            Destroy(piece);
+            chessPieces.Remove(location);
+            // Assume Player wants a Queen
+            if (currentPlayer == "White")
+            {
+                chessPieces.Add(location, Instantiate(whiteQueenPrefab, FRToWorldPoint(location), Quaternion.identity));
+            }
+            else if (currentPlayer == "Black")
+            {
+                chessPieces.Add(location, Instantiate(blackQueenPrefab, FRToWorldPoint(location), Quaternion.identity));
+            }
+            else
+            {
+                throw new System.Exception("Invalid player");
+            }
         }
     }
 
