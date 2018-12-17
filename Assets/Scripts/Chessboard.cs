@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Chessboard : MonoBehaviour {
     public GameObject blackPawnPrefab, blackKingPrefab, blackQueenPrefab, blackBishopPrefab, blackKnightPrefab, blackRookPrefab;
     public GameObject whitePawnPrefab, whiteKingPrefab, whiteQueenPrefab, whiteBishopPrefab, whiteKnightPrefab, whiteRookPrefab;
     public GameObject selectedSquare;
     public GameObject targetSquare;
+    public Text inCheck;
     string pieceToMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> chessPieces;
@@ -20,7 +22,7 @@ public class Chessboard : MonoBehaviour {
         chessPieces = new Dictionary<string, GameObject>();
         recordOfMoves = new List<string>();
         ResetBoard();
-        LoadGame("a2a3a7a6b1c3g8h6");
+        //LoadGame("a2a3a7a6b1c3g8h6");
     }
 
     // Update is called once per frame
@@ -32,6 +34,9 @@ public class Chessboard : MonoBehaviour {
     {
         // Reset starting player
         currentPlayer = "White";
+
+        // Reset check warning
+        inCheck.text = "";
 
         // Remove all chess pieces from board
         foreach (KeyValuePair<string, GameObject> pair in chessPieces)
@@ -188,6 +193,7 @@ public class Chessboard : MonoBehaviour {
                 // record last move
                 recordOfMoves.Add(pieceToMove + location);
                 recordOfMovesIdx++;
+                
 
                 // Change player
                 if (currentPlayer == "White")
@@ -202,6 +208,8 @@ public class Chessboard : MonoBehaviour {
                 {
                     throw new System.Exception("currentPlayer is invalid somehow");
                 }
+                // Determine if the new player is in check
+                isInCheck();
             }
 
             // Reset current move
@@ -287,6 +295,78 @@ public class Chessboard : MonoBehaviour {
                 throw new System.Exception("Invalid player");
             }
         }
+    }
+
+    /// <summary>
+    /// Displays warning on screen if player is in check
+    /// </summary>
+    /// <returns></returns>
+    private void isInCheck()
+    {
+        string inCheckBy = "";
+        if(currentPlayer == "White")
+        {
+            GameObject whiteKing = GameObject.FindGameObjectWithTag("WhiteKing");
+            // iterate through other sides pieces
+            foreach(KeyValuePair<string, GameObject> piece in chessPieces)
+            {
+                if (piece.Value.tag.Contains("Black"))
+                {
+                    // Check if player's king is a valid move location for other side's pieces
+                    foreach (string moveLocation in validMoveLocations(piece.Key))
+                    {
+                        if (moveLocation == WorldPointToFR(whiteKing.transform.position))
+                        {
+                            // record piece that is putting king in check
+                            inCheckBy += piece.Value.tag.Substring(5) + ", ";
+                        }
+                    }
+                }
+            }
+            // If in  check list pieces checking king
+            if(inCheckBy.Length != 0)
+            {
+                inCheck.text = "White is in check by black " + inCheckBy.Substring(0, inCheckBy.Length - 2);
+            }
+            else
+            {
+                inCheck.text = "";
+            }
+        }
+        else if (currentPlayer == "Black")
+        {
+            GameObject blackKing = GameObject.FindGameObjectWithTag("BlackKing");
+            // iterate through other sides pieces
+            foreach (KeyValuePair<string, GameObject> piece in chessPieces)
+            {
+                if (piece.Value.tag.Contains("White"))
+                {
+                    // Check if player's king is a valid move location for other side's pieces
+                    foreach (string moveLocation in validMoveLocations(piece.Key))
+                    {
+                        if (moveLocation == WorldPointToFR(blackKing.transform.position))
+                        {
+                            // record piece that is putting king in check
+                            inCheckBy += piece.Value.tag.Substring(5) + ", ";
+                        }
+                    }
+                }
+            }
+            // If in  check list pieces checking king
+            if (inCheckBy.Length != 0)
+            {
+                inCheck.text = "Black is in check by white " + inCheckBy.Substring(0, inCheckBy.Length - 2);
+            }
+            else
+            {
+                inCheck.text = "";
+            }
+        }
+        else
+        {
+            throw new System.Exception("currentPlayer is invalid somehow");
+        }
+        return;
     }
 
     /// <summary>
