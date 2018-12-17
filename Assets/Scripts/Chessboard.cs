@@ -234,8 +234,7 @@ public class Chessboard : MonoBehaviour {
                 // Indicate current player
                 currentPlayerIndicator.text = "Current player is " + currentPlayer;
 
-                // Determine if the new player is in check
-                isinCheckIndicator();
+                checkIfInCheck();
             }
 
             // Reset current move
@@ -332,7 +331,7 @@ public class Chessboard : MonoBehaviour {
     /// Displays warning on screen if player is in check
     /// </summary>
     /// <returns></returns>
-    private void isinCheckIndicator()
+    private void checkIfInCheck()
     {
         string inCheckBy = "";
         if(currentPlayer == "White")
