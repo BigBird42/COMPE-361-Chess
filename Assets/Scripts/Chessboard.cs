@@ -12,12 +12,13 @@ public class Chessboard : MonoBehaviour {
     static public Dictionary<string, GameObject> chessPieces;
     private Vector3 whiteGrave;
     private Vector3 blackGrave;
-    LinkedList<string> recordOfMoves;
+    List<string> recordOfMoves;
+    int recordOfMovesIdx;
 
     // Use this for initialization
     void Start () {
         chessPieces = new Dictionary<string, GameObject>();
-        recordOfMoves = new LinkedList<string>();
+        recordOfMoves = new List<string>();
         ResetBoard();
         LoadGame("a2a3a7a6b1c3g8h6");
     }
@@ -41,6 +42,7 @@ public class Chessboard : MonoBehaviour {
 
         // Clear record of moves
         recordOfMoves.Clear();
+        recordOfMovesIdx = 0;
 
         // Create black chess pieces in starting positions
         chessPieces.Add("e8", Instantiate(blackKingPrefab, FRToWorldPoint("e8"), Quaternion.identity));
@@ -176,7 +178,8 @@ public class Chessboard : MonoBehaviour {
                     chessPieces.Add(location, piece);
                 }
                 // record last move
-                recordOfMoves.AddLast(pieceToMove + location);
+                recordOfMoves.Add(pieceToMove + location);
+                recordOfMovesIdx++;
 
                 // Change player
                 if (currentPlayer == "White")
@@ -226,7 +229,8 @@ public class Chessboard : MonoBehaviour {
                     blackGrave.y -= 1.0f;
                 }
                 // Record the move to black grave
-                recordOfMoves.AddLast("BG" + location);
+                recordOfMoves.Add("BG" + location);
+                recordOfMovesIdx++;
             }
             else if (piece.tag.Contains("White"))
             {
@@ -241,7 +245,8 @@ public class Chessboard : MonoBehaviour {
                     whiteGrave.y += 1.0f;
                 }
                 // Record the move to white grave
-                recordOfMoves.AddLast("WG" + location);
+                recordOfMoves.Add("WG" + location);
+                recordOfMovesIdx++;
             }
             chessPieces.Remove(location);
         }
