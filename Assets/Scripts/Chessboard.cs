@@ -169,7 +169,7 @@ public class Chessboard : MonoBehaviour {
         else if (pieceToMove.Length == 2)
         {
             // See if move is valid
-            if (isValidMove(pieceToMove + location))
+            if (isValidMove(location))
             {
                 // perform move
                 if (chessPieces.TryGetValue(pieceToMove, out piece))
@@ -405,7 +405,36 @@ public class Chessboard : MonoBehaviour {
     /// <returns></returns>
     private bool isValidMove(string move)
     {
+        GameObject piece = chessPieces[pieceToMove];
 
+        if (piece.tag == "WhitePawn")
+        {
+            return isValidMoveWhitePawn(move);
+        }
+        if (piece.tag == "BlackPawn")
+        {
+            return isValidMoveBlackPawn(move);
+        }
+        if (piece.tag == "WhiteRook" || piece.tag == "BlackRook")
+        {
+            return isValidMoveRook(move);
+        }
+        if (piece.tag == "WhiteKnight" || piece.tag == "BlackKnight")
+        {
+            return isValidMoveKnight(move);
+        }
+        if (piece.tag == "WhiteBishop" || piece.tag == "BlackBishop")
+        {
+            return isValidMoveBishop(move);
+        }
+        if (piece.tag == "WhiteQueen" || piece.tag == "BlackQueen")
+        {
+            return isValidMoveQueen(move);
+        }
+        if (piece.tag == "WhiteKing" || piece.tag == "BlackKing")
+        {
+            return isValidMoveKing(move);
+        }
         return true; // Just for testing, implement later
     }
 
@@ -417,5 +446,314 @@ public class Chessboard : MonoBehaviour {
     private string[] validMoveLocations(string location)
     {
         return new string[] { "a1", "a2", "b1", "b2" }; // Just for testing, implement later
+    }
+
+    // helper methods for isValidMove
+    private bool isValidMoveWhitePawn(string move)
+    {
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+
+        pos1.y++;
+        // If first move
+        if (pos2.y == -2.5f)
+            pos2.y = pos2.y + 2;
+        // If piece diagonal
+        pos3.x++;
+        pos3.y++;
+        pos4.x--;
+        pos4.y++;
+        if (move.Equals(WorldPointToFR(pos1)) || move.Equals(WorldPointToFR(pos2)) || move.Equals(WorldPointToFR(pos3)) || move.Equals(WorldPointToFR(pos4)))
+            return true;
+        else
+            return false;
+    }
+    private bool isValidMoveBlackPawn(string move)
+    {
+        LinkedList<Vector3> possibleLocations = new LinkedList<Vector3>();
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+
+        pos1.y--;
+        // If first move
+        if (pos2.y == 2.5f)
+            pos2.y = pos2.y - 2;
+        // If piece diagonal
+        pos3.x++;
+        pos3.y--;
+        pos4.x--;
+        pos4.y--;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+            possibleLocations.AddLast(pos1);
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+            possibleLocations.AddLast(pos2);
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+            possibleLocations.AddLast(pos3);
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+            possibleLocations.AddLast(pos4);
+
+        foreach (Vector3 loc in possibleLocations)
+        {
+            if (move.Equals(WorldPointToFR(loc)))
+                return true;
+        }
+        return false;
+    }
+    private bool isValidMoveRook(string move)
+    {
+        LinkedList<Vector3> possibleLocations = new LinkedList<Vector3>();
+        Vector3 pos = FRToWorldPoint(pieceToMove);
+
+        for (float x = pos.x++; x < 4.0f; x++)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, pos.y));
+        }
+        for (float x = pos.x--; x > -4.0f; x--)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, pos.y));
+        }
+        for (float y = pos.y++; y < 4.0f; y++)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(pos.x, y));
+        }
+        for (float y = pos.y--; y > -4.0f; y--)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(pos.x, y));
+        }
+        foreach (Vector3 loc in possibleLocations)
+        {
+            if (move.Equals(WorldPointToFR(loc)))
+                return true;
+        }
+        return false;
+    }
+    private bool isValidMoveKnight(string move)
+    {
+        LinkedList<Vector3> possibleLocations = new LinkedList<Vector3>();
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+        Vector3 pos5 = FRToWorldPoint(pieceToMove);
+        Vector3 pos6 = FRToWorldPoint(pieceToMove);
+        Vector3 pos7 = FRToWorldPoint(pieceToMove);
+        Vector3 pos8 = FRToWorldPoint(pieceToMove);
+
+        pos1.y++;
+        pos1.x -= 2;
+        pos2.y += 2;
+        pos2.x--;
+        pos3.y++;
+        pos3.x += 2;
+        pos4.y += 2;
+        pos4.x++;
+        pos5.x++;
+        pos5.y -= 2;
+        pos6.x += 2;
+        pos6.y--;
+        pos7.y--;
+        pos7.x -= 2;
+        pos8.y -= 2;
+        pos8.x--;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+            possibleLocations.AddLast(pos1);
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+            possibleLocations.AddLast(pos2);
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+            possibleLocations.AddLast(pos3);
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+            possibleLocations.AddLast(pos4);
+        if (pos5.x > -4.0f && pos5.x < 4.0f && pos5.y > -4.0f && pos5.y < 4.0f)
+            possibleLocations.AddLast(pos5);
+        if (pos6.x > -4.0f && pos6.x < 4.0f && pos6.y > -4.0f && pos6.y < 4.0f)
+            possibleLocations.AddLast(pos6);
+        if (pos7.x > -4.0f && pos7.x < 4.0f && pos7.y > -4.0f && pos7.y < 4.0f)
+            possibleLocations.AddLast(pos7);
+        if (pos8.x > -4.0f && pos8.x < 4.0f && pos8.y > -4.0f && pos8.y < 4.0f)
+            possibleLocations.AddLast(pos8);
+
+        foreach (Vector3 loc in possibleLocations)
+        {
+            if (move.Equals(WorldPointToFR(loc)))
+                return true;
+        }
+        return false;
+    }
+    private bool isValidMoveBishop(string move)
+    {
+        LinkedList<Vector3> possibleLocations = new LinkedList<Vector3>();
+        Vector3 pos = FRToWorldPoint(pieceToMove);
+        float x = pos.x;
+        float y = pos.y;
+
+        while ( x < 4.0f && y < 4.0f)
+        {
+            x++;
+            y++;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, y));
+        }
+        x = pos.x;
+        y = pos.y;
+        while (x < 4.0f && y > -4.0f)
+        {
+            x++;
+            y--;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, y));
+        }
+        x = pos.x;
+        y = pos.y;
+        while (x > -4.0f && y > -4.0f)
+        {
+            x--;
+            y--;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, y));
+        }
+        x = pos.x;
+        y = pos.y;
+        while (x > -4.0f && y < 4.0f)
+        {
+            x--;
+            y++;
+            if (x > -4.0f && x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, y));
+        }
+
+        foreach (Vector3 loc in possibleLocations)
+        {
+            if (move.Equals(WorldPointToFR(loc)))
+                return true;
+        }
+        return false;
+    }
+    private bool isValidMoveQueen(string move)
+    {
+        LinkedList<Vector3> possibleLocations = new LinkedList<Vector3>();
+        Vector3 pos = FRToWorldPoint(pieceToMove);
+
+        for (float x = pos.x++; x < 4.0f; x++)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, pos.y));
+        }
+        for (float x = pos.x--; x > -4.0f; x--)
+        {
+            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
+                possibleLocations.AddLast(new Vector3(x, pos.y));
+        }
+        for (float y = pos.y++; y < 4.0f; y++)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(pos.x, y));
+        }
+        for (float y = pos.y--; y > -4.0f; y--)
+        {
+            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
+                possibleLocations.AddLast(new Vector3(pos.x, y));
+        }
+
+        float row = pos.x;
+        float col = pos.y;
+
+        while (row < 4.0f && col < 4.0f)
+        {
+            row++;
+            col++;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(new Vector3(row, col));
+        }
+        row = pos.x;
+        col = pos.y;
+        while (row < 4.0f && col > -4.0f)
+        {
+            row++;
+            col--;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(new Vector3(row, col));
+        }
+        row = pos.x;
+        col = pos.y;
+        while (row > -4.0f && col > -4.0f)
+        {
+            row--;
+            col--;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(new Vector3(row, col));
+        }
+        row = pos.x;
+        col = pos.y;
+        while (row > -4.0f && col < 4.0f)
+        {
+            row--;
+            col++;
+            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
+                possibleLocations.AddLast(new Vector3(row, col));
+        }
+        foreach (Vector3 loc in possibleLocations)
+        {
+            if (move.Equals(WorldPointToFR(loc)))
+                return true;
+        }
+        return false;
+    }
+    private bool isValidMoveKing(string move)
+    {
+        LinkedList<Vector3> possibleLocations = new LinkedList<Vector3>();
+        Vector3 pos1 = FRToWorldPoint(pieceToMove);
+        Vector3 pos2 = FRToWorldPoint(pieceToMove);
+        Vector3 pos3 = FRToWorldPoint(pieceToMove);
+        Vector3 pos4 = FRToWorldPoint(pieceToMove);
+        Vector3 pos5 = FRToWorldPoint(pieceToMove);
+        Vector3 pos6 = FRToWorldPoint(pieceToMove);
+        Vector3 pos7 = FRToWorldPoint(pieceToMove);
+        Vector3 pos8 = FRToWorldPoint(pieceToMove);
+
+        pos1.y++;
+        pos2.x++;
+        pos2.y++;
+        pos3.x++;
+        pos4.x++;
+        pos4.y--;
+        pos5.y--;
+        pos6.x--;
+        pos6.y--;
+        pos7.x--;
+        pos8.x--;
+        pos8.y++;
+
+        if (pos1.x > -4.0f && pos1.x < 4.0f && pos1.y > -4.0f && pos1.y < 4.0f)
+            possibleLocations.AddLast(pos1);
+        if (pos2.x > -4.0f && pos2.x < 4.0f && pos2.y > -4.0f && pos2.y < 4.0f)
+            possibleLocations.AddLast(pos2);
+        if (pos3.x > -4.0f && pos3.x < 4.0f && pos3.y > -4.0f && pos3.y < 4.0f)
+            possibleLocations.AddLast(pos3);
+        if (pos4.x > -4.0f && pos4.x < 4.0f && pos4.y > -4.0f && pos4.y < 4.0f)
+            possibleLocations.AddLast(pos4);
+        if (pos5.x > -4.0f && pos5.x < 4.0f && pos5.y > -4.0f && pos5.y < 4.0f)
+            possibleLocations.AddLast(pos5);
+        if (pos6.x > -4.0f && pos6.x < 4.0f && pos6.y > -4.0f && pos6.y < 4.0f)
+            possibleLocations.AddLast(pos6);
+        if (pos7.x > -4.0f && pos7.x < 4.0f && pos7.y > -4.0f && pos7.y < 4.0f)
+            possibleLocations.AddLast(pos7);
+        if (pos8.x > -4.0f && pos8.x < 4.0f && pos8.y > -4.0f && pos8.y < 4.0f)
+            possibleLocations.AddLast(pos8);
+
+        foreach(Vector3 loc in possibleLocations){
+            if (move.Equals(WorldPointToFR(loc)))
+                return true;
+        }
+        return false;
     }
 }
