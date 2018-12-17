@@ -126,6 +126,9 @@ public class Chessboard : MonoBehaviour {
         }
     }
     
+    /// <summary>
+    /// Determines actions to take on player clicks, all interaction from the players come through here
+    /// </summary>
     private void OnMouseDown()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -173,7 +176,7 @@ public class Chessboard : MonoBehaviour {
                 {
                     moveToGrave(location);
                     piece.transform.position = FRToWorldPoint(location);
-                    // Update new location of the piece
+                    // Update key for piece that is moving
                     chessPieces.Remove(pieceToMove);
                     chessPieces.Add(location, piece);
                     // Promote pawns to Queens
@@ -260,7 +263,7 @@ public class Chessboard : MonoBehaviour {
     }
 
     /// <summary>
-    /// Promotes a pawn at the location to a Queen
+    /// Promotes a pawn at the location to a Queen, does not actually check if piece is a pawn
     /// </summary>
     /// <param name="location"></param>
     private void pawnPromotion(string location)
@@ -334,6 +337,8 @@ public class Chessboard : MonoBehaviour {
     /// <summary>
     /// Convert world point in unity to file and rank location on board
     /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
     private string WorldPointToFR(Vector3 pos)
     {
         string location = "";
@@ -365,6 +370,8 @@ public class Chessboard : MonoBehaviour {
     /// <summary>
     /// Convert file and rank location on board to world point in unity
     /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
     private Vector3 FRToWorldPoint(string location)
     {
         float x = 0, y = 0;
