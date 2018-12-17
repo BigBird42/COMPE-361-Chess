@@ -104,19 +104,19 @@ public class Chessboard : MonoBehaviour {
     /// Save game as a string to be written to a file
     /// </summary>
     /// <returns></returns>
-    public string SaveGame()
+    public void SaveGame()
     {
         string saveState = "";
         foreach(string move in recordOfMoves)
         {
             saveState += move;
         }
-        return saveState;
+        System.IO.File.WriteAllText(@"C:\Users\Public\Save.txt", saveState);
     }
 
     /// <summary>
     /// Load the game from a string
-    /// </summary>
+    /// </summary>`
     /// <param name="saveState"></param>
     public void LoadGame(string saveState)
     {
@@ -187,7 +187,7 @@ public class Chessboard : MonoBehaviour {
         else if (pieceToMove.Length == 2)
         {
             // See if move is valid
-            if (isValidMove(location))
+            if (isValidMove(pieceToMove, location))
             {
                 // perform move
                 if (chessPieces.TryGetValue(pieceToMove, out piece))
@@ -234,7 +234,7 @@ public class Chessboard : MonoBehaviour {
                 // Indicate current player
                 currentPlayerIndicator.text = "Current player is " + currentPlayer;
 
-                //checkIfInCheck();
+                checkIfInCheck();
             }
 
             // Reset current move
@@ -513,9 +513,9 @@ public class Chessboard : MonoBehaviour {
     /// </summary>
     /// <param name="move"></param>
     /// <returns></returns>
-    private bool isValidMove(string move)
+    private bool isValidMove(string start, string move)
     {
-        GameObject piece = chessPieces[pieceToMove];
+        GameObject piece = chessPieces[start];
         GameObject other;
         if (chessPieces.TryGetValue(move, out other))    // Piece exists at target location
         {
@@ -1175,66 +1175,16 @@ public class Chessboard : MonoBehaviour {
     private LinkedList<string> validLocationsQueen(string location)
     {
         LinkedList<string> possibleLocations = new LinkedList<string>();
-        Vector3 pos = FRToWorldPoint(pieceToMove);
 
-        for (float x = pos.x++; x < 4.0f; x++)
+        foreach(string loc in validLocationsRook(location))
         {
-            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, pos.y)));
+            possibleLocations.AddLast(loc);
         }
-        for (float x = pos.x--; x > -4.0f; x--)
+        foreach (string loc in validLocationsBishop(location))
         {
-            if (x > -4.0f && x < 4.0f && pos.y > -4.0f && pos.y < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(x, pos.y)));
-        }
-        for (float y = pos.y++; y < 4.0f; y++)
-        {
-            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(pos.x, y)));
-        }
-        for (float y = pos.y--; y > -4.0f; y--)
-        {
-            if (pos.x > -4.0f && pos.x < 4.0f && y > -4.0f && y < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(pos.x, y)));
+            possibleLocations.AddLast(loc);
         }
 
-        float row = pos.x;
-        float col = pos.y;
-
-        while (row < 4.0f && col < 4.0f)
-        {
-            row++;
-            col++;
-            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
-        }
-        row = pos.x;
-        col = pos.y;
-        while (row < 4.0f && col > -4.0f)
-        {
-            row++;
-            col--;
-            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
-        }
-        row = pos.x;
-        col = pos.y;
-        while (row > -4.0f && col > -4.0f)
-        {
-            row--;
-            col--;
-            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
-        }
-        row = pos.x;
-        col = pos.y;
-        while (row > -4.0f && col < 4.0f)
-        {
-            row--;
-            col++;
-            if (row > -4.0f && row < 4.0f && col > -4.0f && col < 4.0f)
-                possibleLocations.AddLast(WorldPointToFR(new Vector3(row, col)));
-        }
 
         return possibleLocations;
     }
