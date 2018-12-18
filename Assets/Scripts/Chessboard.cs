@@ -218,6 +218,8 @@ public class Chessboard : MonoBehaviour {
                     return;
                 }
 
+                checkIfInCheck();
+
                 // Change player
                 if (currentPlayer == "White")
                 {
@@ -234,7 +236,6 @@ public class Chessboard : MonoBehaviour {
                 // Indicate current player
                 currentPlayerIndicator.text = "Current player is " + currentPlayer;
 
-                checkIfInCheck();
             }
 
             // Reset current move
@@ -328,73 +329,48 @@ public class Chessboard : MonoBehaviour {
     }
 
     /// <summary>
-    /// Displays warning on screen if player is in check
+    /// Displays warning on screen if the other player will be in check
     /// </summary>
     /// <returns></returns>
     private void checkIfInCheck()
     {
-        string inCheckBy = "";
+        string otherPlayer = "";
         if(currentPlayer == "White")
         {
-            GameObject whiteKing = GameObject.FindGameObjectWithTag("WhiteKing");
-            // iterate through other sides pieces
-            foreach(KeyValuePair<string, GameObject> piece in chessPieces)
-            {
-                if (piece.Value.tag.Contains("Black"))
-                {
-                    // Check if player's king is a valid move location for other side's pieces
-                    foreach (string moveLocation in validMoveLocations(piece.Key))
-                    {
-                        if (moveLocation == WorldPointToFR(whiteKing.transform.position))
-                        {
-                            // record piece that is putting king in check
-                            inCheckBy += piece.Value.tag.Substring(5) + ", ";
-                        }
-                    }
-                }
-            }
-            // If in  check list pieces checking king
-            if(inCheckBy.Length != 0)
-            {
-                inCheckIndicator.text = "White is in check by black " + inCheckBy.Substring(0, inCheckBy.Length - 2);
-            }
-            else
-            {
-                inCheckIndicator.text = "";
-            }
+            otherPlayer = "Black";
         }
         else if (currentPlayer == "Black")
         {
-            GameObject blackKing = GameObject.FindGameObjectWithTag("BlackKing");
-            // iterate through other sides pieces
-            foreach (KeyValuePair<string, GameObject> piece in chessPieces)
-            {
-                if (piece.Value.tag.Contains("White"))
-                {
-                    // Check if player's king is a valid move location for other side's pieces
-                    foreach (string moveLocation in validMoveLocations(piece.Key))
-                    {
-                        if (moveLocation == WorldPointToFR(blackKing.transform.position))
-                        {
-                            // record piece that is putting king in check
-                            inCheckBy += piece.Value.tag.Substring(5) + ", ";
-                        }
-                    }
-                }
-            }
-            // If in  check list pieces checking king
-            if (inCheckBy.Length != 0)
-            {
-                inCheckIndicator.text = "Black is in check by white " + inCheckBy.Substring(0, inCheckBy.Length - 2);
-            }
-            else
-            {
-                inCheckIndicator.text = "";
-            }
+            otherPlayer = "White";
         }
         else
         {
             throw new System.Exception("currentPlayer is invalid somehow");
+        }
+
+        string inCheckBy = "";
+        // Find the other players king
+        GameObject checkKing = GameObject.FindGameObjectWithTag(otherPlayer + "King");
+        // Iterate through all of the current players pieces
+        foreach (KeyValuePair<string, GameObject> piece in chessPieces)
+        {
+            if (piece.Value.tag.Contains(currentPlayer))
+            {
+                // Add piece to string if it can move to the location of the enemy king
+                if(isValidMove(piece.Key, WorldPointToFR(checkKing.transform.position)))
+                {
+                    inCheckBy += piece.Value.tag.Substring(5) + " " + piece.Key + ", ";
+                }
+            }
+        }
+        // If in  check list pieces checking king
+        if (inCheckBy.Length != 0)
+        {
+            inCheckIndicator.text = otherPlayer + " is in check by " + currentPlayer + " " + inCheckBy.Substring(0, inCheckBy.Length - 2);
+        }
+        else
+        {
+            inCheckIndicator.text = "";
         }
         return;
     }
