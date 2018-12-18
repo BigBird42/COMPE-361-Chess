@@ -11,7 +11,7 @@ public class Chessboard : MonoBehaviour {
     public Text inCheckIndicator;
     public Text currentPlayerIndicator;
     public Text playerWonIndicator;
-    public Button resetBoardButton;
+    public Button resetBoardButton, saveGameButton;
     string pieceToMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> chessPieces;
@@ -28,6 +28,7 @@ public class Chessboard : MonoBehaviour {
         recordOfMoves = new List<string>();
         graveyard = new List<GameObject>();
         resetBoardButton.onClick.AddListener(ResetBoard);
+        saveGameButton.onClick.AddListener(SaveGame);
         ResetBoard();
     }
 
