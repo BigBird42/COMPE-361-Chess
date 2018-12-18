@@ -11,6 +11,7 @@ public class Chessboard : MonoBehaviour {
     public Text inCheckIndicator;
     public Text currentPlayerIndicator;
     public Text playerWonIndicator;
+    public Text loadError;
     public Button resetBoardButton, saveGameButton, loadGameButton;
     string pieceToMove = "";
     static public string currentPlayer;
@@ -137,23 +138,31 @@ public class Chessboard : MonoBehaviour {
     public void LoadGame()
     {
         ResetBoard();
-        string loadState = System.IO.File.ReadAllText(@"C:\Users\Public\Save.txt");
-        string move = "";
-        for (int i = 0; i <= (loadState.Length-4); i += 4)
+        try
         {
-            move = loadState.Substring(i, 4);
-            // Skip records of move to grave, newPlayerMove will populate that for us
-            if(move[1] == 'G') { continue; }
-            try
+            string loadState = System.IO.File.ReadAllText(@"C:\Users\Public\Save.txt");
+            string move = "";
+            for (int i = 0; i <= (loadState.Length-4); i += 4)
             {
-                newPlayerMove(FRToWorldPoint(move.Substring(0, 2)));
-                newPlayerMove(FRToWorldPoint(move.Substring(2, 2)));
-            }
-            catch(System.ArgumentException)
-            {
-                throw new System.ArgumentException("Corrupted save file");
+                move = loadState.Substring(i, 4);
+                // Skip records of move to grave, newPlayerMove will populate that for us
+                if(move[1] == 'G') { continue; }
+                try
+                {
+                    newPlayerMove(FRToWorldPoint(move.Substring(0, 2)));
+                    newPlayerMove(FRToWorldPoint(move.Substring(2, 2)));
+                }
+                catch(System.ArgumentException)
+                {
+                    throw new System.ArgumentException("Corrupted save file");
+                }
             }
         }
+        catch (System.IO.FileNotFoundException)
+        {
+            loadError.text = "No save file found.";
+        }
+        
     }
     
     /// <summary>
@@ -185,6 +194,7 @@ public class Chessboard : MonoBehaviour {
     /// <param name="mousePos"></param>
     public void newPlayerMove(Vector3 mousePos)
     {
+        loadError.text = "";    // Clear load error on player move 
         string location = WorldPointToFR(mousePos);
         GameObject piece;
 
