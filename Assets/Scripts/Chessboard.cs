@@ -15,6 +15,7 @@ public class Chessboard : MonoBehaviour {
     string pieceToMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> chessPieces;
+    private List<GameObject> graveyard;
     private Vector3 whiteGrave;
     private Vector3 blackGrave;
     List<string> recordOfMoves;
@@ -25,6 +26,7 @@ public class Chessboard : MonoBehaviour {
     void Start () {
         chessPieces = new Dictionary<string, GameObject>();
         recordOfMoves = new List<string>();
+        graveyard = new List<GameObject>();
         resetBoardButton.onClick.AddListener(ResetBoard);
         ResetBoard();
     }
@@ -105,6 +107,12 @@ public class Chessboard : MonoBehaviour {
         whiteGrave.y = -3.5f;
         blackGrave.x = 4.5f;
         blackGrave.y = 3.5f;
+
+        // Clear the graveyard
+        foreach (GameObject piece in graveyard)
+        {
+            Destroy(piece);
+        }
     }
 
     /// <summary>
@@ -305,6 +313,7 @@ public class Chessboard : MonoBehaviour {
                 stillPlaying = false;
             }
             chessPieces.Remove(location);
+            graveyard.Add(piece);
         }
     }
 
