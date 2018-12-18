@@ -11,6 +11,7 @@ public class Chessboard : MonoBehaviour {
     public Text inCheckIndicator;
     public Text currentPlayerIndicator;
     public Text playerWonIndicator;
+    public Button resetBoardButton;
     string pieceToMove = "";
     static public string currentPlayer;
     static public Dictionary<string, GameObject> chessPieces;
@@ -24,6 +25,7 @@ public class Chessboard : MonoBehaviour {
     void Start () {
         chessPieces = new Dictionary<string, GameObject>();
         recordOfMoves = new List<string>();
+        resetBoardButton.onClick.AddListener(ResetBoard);
         ResetBoard();
     }
 
@@ -55,6 +57,12 @@ public class Chessboard : MonoBehaviour {
         // Clear record of moves
         recordOfMoves.Clear();
         recordOfMovesIdx = 0;
+
+        // Reset piece that is being moved
+        pieceToMove = "";
+        // Remove location highlights
+        highlightPiece("", false);
+        highlightValidMoves(new LinkedList<string> { }, false);
 
         // Create black chess pieces in starting positions
         chessPieces.Add("e8", Instantiate(blackKingPrefab, FRToWorldPoint("e8"), Quaternion.identity));
@@ -178,7 +186,7 @@ public class Chessboard : MonoBehaviour {
                 if (piece.tag.Contains(currentPlayer))
                 {
                     pieceToMove += location;
-                    hightlightPiece(location, true);
+                    highlightPiece(location, true);
                     highlightValidMoves(validMoveLocations(location), true);
                 }
             }
@@ -212,7 +220,7 @@ public class Chessboard : MonoBehaviour {
                     // the killing blow and record the move, but now change player
                     // Reset current move
                     pieceToMove = "";
-                    hightlightPiece("", false);
+                    highlightPiece("", false);
                     highlightValidMoves(new LinkedList<string> { }, false);
                     return;
                 }
@@ -239,7 +247,7 @@ public class Chessboard : MonoBehaviour {
 
             // Reset current move
             pieceToMove = "";
-            hightlightPiece("", false);
+            highlightPiece("", false);
             highlightValidMoves(new LinkedList<string> { }, false);
         }
     }
@@ -379,7 +387,7 @@ public class Chessboard : MonoBehaviour {
     /// </summary>
     /// <param name="location"></param>
     /// <param name="enable"></param>
-    private void hightlightPiece(string location, bool enable)
+    private void highlightPiece(string location, bool enable)
     {
         if (enable)
         {
