@@ -25,7 +25,6 @@ public class Chessboard : MonoBehaviour {
         chessPieces = new Dictionary<string, GameObject>();
         recordOfMoves = new List<string>();
         ResetBoard();
-        //LoadGame("a2a3a7a6b1c3g8h6");
     }
 
     // Update is called once per frame
@@ -117,14 +116,15 @@ public class Chessboard : MonoBehaviour {
     /// <summary>
     /// Load the game from a string
     /// </summary>`
-    /// <param name="saveState"></param>
-    public void LoadGame(string saveState)
+    public void LoadGame()
     {
         ResetBoard();
+        string loadState = "";
+        System.IO.File.WriteAllText(@"C:\Users\Public\Save.txt", loadState);
         string move = "";
-        for (int i = 0; i <= (saveState.Length-4); i += 4)
+        for (int i = 0; i <= (loadState.Length-4); i += 4)
         {
-            move = saveState.Substring(i, 4);
+            move = loadState.Substring(i, 4);
             // Skip records of move to grave, newPlayerMove will populate that for us
             if(move[1] == 'G') { continue; }
             try
