@@ -119,8 +119,7 @@ public class Chessboard : MonoBehaviour {
     public void LoadGame()
     {
         ResetBoard();
-        string loadState = "";
-        System.IO.File.WriteAllText(@"C:\Users\Public\Save.txt", loadState);
+        string loadState = System.IO.File.ReadAllText(@"C:\Users\Public\Save.txt");
         string move = "";
         for (int i = 0; i <= (loadState.Length-4); i += 4)
         {
