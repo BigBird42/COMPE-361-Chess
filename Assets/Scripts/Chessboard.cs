@@ -36,8 +36,9 @@ public class Chessboard : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
-	}
+        if (Input.GetKey("Escape"))
+            Application.Quit();
+    }
 
     private void ResetBoard()
     {
